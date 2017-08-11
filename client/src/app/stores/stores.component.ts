@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as http from 'http';
-import {Http} from '@angular/http';
+import {StoresService} from '../stores.service';
+import {Chaine} from '../chaine';
 
 @Component({
   selector: 'app-stores',
@@ -8,21 +8,15 @@ import {Http} from '@angular/http';
   styleUrls: ['./stores.component.css']
 })
 export class StoresComponent implements OnInit {
-  chaines: ;
+  chaines: Chaine[] ;
 
-  constructor(private http: Http) {  }
+  constructor(private storesevice: StoresService) {  }
 
   ngOnInit() {
     this.getChaines();
   }
 
   private getChaines() {
-    this.http.get('/app/chaines.json')
-      .lift((res: Response) => res.json())
-      .subscribe(
-          data => {this.chaines = data; } ,
-          err => console.error(err),
-          () => console.log('done')
-      );
+    this.storesevice.getChaines().then(chaines => this.chaines = chaines);
   }
 }
