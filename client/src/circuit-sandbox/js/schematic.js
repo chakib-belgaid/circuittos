@@ -638,11 +638,11 @@ var cktsim = (function () {
         var phase_offset = new Array(N);
         for (var i = N - 1; i >= 0; --i) phase_offset[i] = 0;
 
-        var f = fstart;
+        var xf = fstart;
         fstop *= 1.0001;  // capture that last freq point!
-        while (f <= fstop) {
-            var omega = 2 * Math.PI * f;
-            response[2 * N].push(f);   // 2*N for magnitude and phase
+        while (xf <= fstop) {
+            var omega = 2 * Math.PI * xf;
+            response[2 * N].push(xf);   // 2*N for magnitude and phase
 
             // Find complex x+jy that sats Gx-omega*Cy=rhs; omega*Cx+Gy=0
             // Note: solac[0:N-1]=x, solac[N:2N-1]=y
@@ -682,7 +682,7 @@ var cktsim = (function () {
                 }
                 response[i + N].push(phase + phase_offset[i]);
             }
-            f *= delta_f;    // increment frequency
+            xf *= delta_f;    // increment frequency
         }
 
         // create solution dictionary
@@ -2019,6 +2019,7 @@ function update_schematics() {
             try {
                 new schematic.Schematic(schematics[i]);
             } catch (err) {
+              console.log("error when loading compoenent");
                 var msgdiv = document.createElement('div');
                 msgdiv.style.border = 'thick solid #FF0000';
                 msgdiv.style.margins = '20px';
@@ -2135,19 +2136,19 @@ schematic = (function () {
         this.cursor_x = 0;
         this.cursor_y = 0;
         this.window_list = [];  // list of pop-up windows in increasing z order
-
+        this.is_question = false ;
         // use user-supplied list of parts if supplied
         // else just populate parts bin with all the parts
         this.edits_allowed = true;
-        var is_question = input.getAttribute('is_question');
 
+        /*
         if (is_question == undefined || is_question == "None" || is_question.toLocaleLowerCase() != "true") {
 
             this.is_question = false;
         }
         else {
             this.is_question = true; // the mode is chapter 1
-        }
+        }*/
 
         if (!this.is_question) {
 
@@ -6732,6 +6733,11 @@ schematic = (function () {
 
     function is_question_double_click(component) {
         console.log(component.properties["name"]);
+    }
+
+    Schematic.prototype.printi = function()
+    {
+      console.log("hello this is printi");
     }
 
     ///////////////////////////////////////////////////////////////////////////////
