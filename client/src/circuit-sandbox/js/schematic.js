@@ -2167,10 +2167,11 @@ schematic = (function () {
   var part_w = 42;   // size of a parts bin compartment
   var part_h = 42;
   Schematic.prototype.update_parts = function () {
-    this.parts_bin = [];
+    //this.parts_bin = [];
     for (var i = 0; i < this.parts.length; i++) {
       var part = new Part(this);
       var pm = parts_map[this.parts[i]];
+      //console.log(pm);
       part.set_component(new pm[0](0, 0, 0), pm[1]);
       this.parts_bin.push(part);
     }
@@ -2520,6 +2521,7 @@ schematic = (function () {
     }*/
     //this.load_schematic(null,null);
     // start by centering diagram on the screen
+    console.log(this.parts_bin);
     this.redraw_background();
     this.zoomall();
   }
@@ -2868,11 +2870,13 @@ schematic = (function () {
           var type = c[0];
           var coords = c[1];
           var properties = c[2];
-
+          console.log(c);
+          if (c.length < 5)
+            c.push(true);
           var part = new parts_map[type][0](coords[0], coords[1], coords[2]);
           for (var name in properties)
             part.properties[name] = properties[name];
-
+          part.is_const = c[4];
           part.add(this);
         }
       }
@@ -3898,6 +3902,7 @@ schematic = (function () {
             if (sch.components[i].selected) {
               is_question_mouse_down(sch.components[i]);
               ///TODO a tooltip to display the element name
+
               which = i;  // keep track of component we found
 
             }
@@ -3923,7 +3928,7 @@ schematic = (function () {
           for (var i = sch.components.length - 1; i >= 0; --i)
             if (sch.components[i].select(x, y, event.shiftKey)) {
               if (sch.components[i].selected) {
-                //console.log(sch.components[i]);
+                  //console.log(sch.components[i]);
 
                 ///TODO here we can get the selected item
                 sch.on_click_component(sch.components[i]);
@@ -4100,7 +4105,7 @@ schematic = (function () {
         if (sch.components[i].select(x, y, false)) {
           if (sch.components[i].selected) {
             is_question_double_click(sch.components[i]);
-            ///TODO a tooltip    to display the element name
+            ///TODO a tooltip to display the element name
             which = i;  // keep track of component we found
 
           }
@@ -5170,7 +5175,7 @@ schematic = (function () {
 
   Part.prototype.select = function (which) { // select from the sidebar menu
     this.selected = which;
-    console.log(this);///TODO here we have the sidebar item
+    //console.log(this);
     this.redraw();
   }
 
@@ -5243,7 +5248,7 @@ schematic = (function () {
   function part_mouse_down(event) {
     if (!event) event = window.event;
     var part = event.target.part;
-
+    console.log(part);
     part.select(true);
     part.sch.new_part = part;
     return false;
@@ -5320,6 +5325,8 @@ schematic = (function () {
     this.bounding_box = [0, 0, 0, 0];   // in device coords [left,top,right,bottom]
     this.bbox = this.bounding_box;   // in absolute coords
     this.connections = [];
+    this.is_const=false ;
+
   }
 
   Component.prototype.json = function (index) {
@@ -5332,7 +5339,7 @@ schematic = (function () {
     for (var i = 0; i < this.connections.length; i++)
       conns.push(this.connections[i].json());
 
-    var json = [this.type, [this.x, this.y, this.rotation], props, conns];
+    var json = [this.type, [this.x, this.y, this.rotation], props, conns,this.is_const];
     return json;
   }
 
@@ -5560,7 +5567,7 @@ schematic = (function () {
   }
 
   Component.prototype.edit_properties = function (x, y) {
-    if (this.near(x, y)) {
+    if (this.near(x, y) && ! this.is_const ) {
       // make an <input> widget for each property
       var fields = [];
       for (var i in this.properties)
@@ -5723,11 +5730,12 @@ schematic = (function () {
 
   var near_distance = 2;   // how close to wire counts as "near by"
 
-  function Wire(x1, y1, x2, y2) {
+  function Wire(x1, y1, x2, y2,is_const) {
     // arbitrarily call x1,y1 the origin
     Component.call(this, 'w', x1, y1, 0);
     this.dx = x2 - x1;
     this.dy = y2 - y1;
+    this.is_const= is_const;
     this.add_connection(0, 0);
     this.add_connection(this.dx, this.dy);
 
@@ -5769,7 +5777,7 @@ schematic = (function () {
   }
 
   Wire.prototype.clone = function (x, y) {
-    return new Wire(x, y, x + this.dx, y + this.dy);
+    return new Wire(x, y, x + this.dx, y + this.dy,this.is_const);
   }
 
   Wire.prototype.near = function (x, y) {
@@ -5852,9 +5860,10 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Ground(x, y, rotation) {
+  function Ground(x, y, rotation,is_const) {
     Component.call(this, 'g', x, y, rotation);
     this.add_connection(0, 0);
+    this.is_const=is_const;
     this.bounding_box = [-6, 0, 6, 14];
     this.update_coords();
   }
@@ -5874,8 +5883,8 @@ schematic = (function () {
     this.draw_line(c, 0, 14, 6, 8);
   }
 
-  Ground.prototype.clone = function (x, y) {
-    return new Ground(x, y, this.rotation);
+  Ground.prototype.clone = function (x, y,) {
+    return new Ground(x, y, this.rotation,this.is_const);
   }
 
   // Grounds no properties to edit
@@ -5895,9 +5904,10 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Label(x, y, rotation, label) {
+  function Label(x, y, rotation, label,is_const) {
     Component.call(this, 'L', x, y, rotation);
     this.properties['label'] = label ? label : '???';
+    this.is_const=is_const;
     this.add_connection(0, 0);
     this.bounding_box = [-2, 0, 2, 8];
     this.update_coords();
@@ -5917,7 +5927,7 @@ schematic = (function () {
   }
 
   Label.prototype.clone = function (x, y) {
-    return new Label(x, y, this.rotation, this.properties['label']);
+    return new Label(x, y, this.rotation, this.properties['label'],this.is_const);
   }
 
   // give components a chance to generate a label for their connection(s)
@@ -5946,9 +5956,10 @@ schematic = (function () {
     'xaxis': undefined
   };
 
-  function Probe(x, y, rotation, color, offset) {
+  function Probe(x, y, rotation, color, offset,is_const) {
     Component.call(this, 's', x, y, rotation);
     this.add_connection(0, 0);
+    this.is_const=is_const;
     this.properties['color'] = color ? color : 'cyan';
     this.properties['offset'] = (offset == undefined || offset == '') ? '0' : offset;
     this.bounding_box = [0, 0, 27, -21];
@@ -5988,7 +5999,7 @@ schematic = (function () {
   }
 
   Probe.prototype.clone = function (x, y) {
-    return new Probe(x, y, this.rotation, this.properties['color'], this.properties['offset']);
+    return new Probe(x, y, this.rotation, this.properties['color'], this.properties['offset'],this.is_const);
   }
 
   Probe.prototype.edit_properties = function (x, y) {
@@ -6027,13 +6038,14 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Ammeter(x, y, rotation, color, offset) {
+  function Ammeter(x, y, rotation, color, offset,is_const) {
     Component.call(this, 'a', x, y, rotation);
     this.add_connection(0, 0);   // pos
     this.add_connection(16, 0);   // neg
     this.properties['color'] = color ? color : 'magenta';
     this.properties['offset'] = (offset == undefined || offset == '') ? '0' : offset;
     this.bounding_box = [-3, 0, 16, 3];
+    this.is_const=is_const;
     this.update_coords();
   }
 
@@ -6083,7 +6095,7 @@ schematic = (function () {
   }
 
   Ammeter.prototype.clone = function (x, y) {
-    return new Ammeter(x, y, this.rotation, this.properties['color'], this.properties['offset']);
+    return new Ammeter(x, y, this.rotation, this.properties['color'], this.properties['offset'],this.is_const);
   }
 
   // share code with voltage probe
@@ -6122,12 +6134,13 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Resistor(x, y, rotation, name, r) {
+  function Resistor(x, y, rotation, name, r,is_const) {
     Component.call(this, 'r', x, y, rotation);
     this.properties['name'] = name;
     this.properties['r'] = r ? r : '1';
     this.add_connection(0, 0);
     this.add_connection(0, 48);
+    this.is_const=is_const;
     this.bounding_box = [-5, 0, 5, 48];
     this.update_coords();
   }
@@ -6157,7 +6170,7 @@ schematic = (function () {
   }
 
   Resistor.prototype.clone = function (x, y) {
-    return new Resistor(x, y, this.rotation, this.properties['name'], this.properties['r']);
+    return new Resistor(x, y, this.rotation, this.properties['name'], this.properties['r'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6166,9 +6179,10 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Capacitor(x, y, rotation, name, c) {
+  function Capacitor(x, y, rotation, name, c,is_const) {
     Component.call(this, 'c', x, y, rotation);
     this.properties['name'] = name;
+    this.is_const=is_const;
     this.properties['c'] = c ? c : '1p';
     this.add_connection(0, 0);
     this.add_connection(0, 48);
@@ -6196,7 +6210,7 @@ schematic = (function () {
   }
 
   Capacitor.prototype.clone = function (x, y) {
-    return new Capacitor(x, y, this.rotation, this.properties['name'], this.properties['c']);
+    return new Capacitor(x, y, this.rotation, this.properties['name'], this.properties['c'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6205,9 +6219,10 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Inductor(x, y, rotation, name, l) {
+  function Inductor(x, y, rotation, name, l,is_const) {
     Component.call(this, 'l', x, y, rotation);
     this.properties['name'] = name;
+    this.is_const=is_const;
     this.properties['l'] = l ? l : '1n';
     this.add_connection(0, 0);
     this.add_connection(0, 48);
@@ -6237,7 +6252,7 @@ schematic = (function () {
   }
 
   Inductor.prototype.clone = function (x, y) {
-    return new Inductor(x, y, this.rotation, this.properties['name'], this.properties['l']);
+    return new Inductor(x, y, this.rotation, this.properties['name'], this.properties['l'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6248,8 +6263,10 @@ schematic = (function () {
 
   var diode_types = ['normal', 'ideal'];
 
-  function Diode(x, y, rotation, name, area, type) {
+  function Diode(x, y, rotation, name, area, type,is_const) {
+
     Component.call(this, 'd', x, y, rotation);
+    this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['area'] = area ? area : '1';
     this.properties['type'] = type ? type : 'normal';
@@ -6290,7 +6307,7 @@ schematic = (function () {
   }
 
   Diode.prototype.clone = function (x, y) {
-    return new Diode(x, y, this.rotation, this.properties['name'], this.properties['area'], this.properties['type']);
+    return new Diode(x, y, this.rotation, this.properties['name'], this.properties['area'], this.properties['type'],this.is_const);
   }
 
   Diode.prototype.edit_properties = function (x, y) {
@@ -6320,9 +6337,10 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function NFet(x, y, rotation, name, w_over_l) {
+  function NFet(x, y, rotation, name, w_over_l,is_const) {
     Component.call(this, 'n', x, y, rotation);
     this.properties['name'] = name;
+    this.is_const=is_const;
     this.properties['WL'] = w_over_l ? w_over_l : '2';
     this.add_connection(0, 0);   // drain
     this.add_connection(-24, 24);  // gate
@@ -6357,7 +6375,7 @@ schematic = (function () {
   }
 
   NFet.prototype.clone = function (x, y) {
-    return new NFet(x, y, this.rotation, this.properties['name'], this.properties['WL']);
+    return new NFet(x, y, this.rotation, this.properties['name'], this.properties['WL'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6366,8 +6384,9 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function PFet(x, y, rotation, name, w_over_l) {
+  function PFet(x, y, rotation, name, w_over_l,is_const) {
     Component.call(this, 'p', x, y, rotation);
+    this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['WL'] = w_over_l ? w_over_l : '2';
     this.add_connection(0, 0);   // drain
@@ -6404,7 +6423,7 @@ schematic = (function () {
   }
 
   PFet.prototype.clone = function (x, y) {
-    return new PFet(x, y, this.rotation, this.properties['name'], this.properties['WL']);
+    return new PFet(x, y, this.rotation, this.properties['name'], this.properties['WL'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6413,8 +6432,9 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function OpAmp(x, y, rotation, name, A) {
+  function OpAmp(x, y, rotation, name, A,is_const) {
     Component.call(this, 'o', x, y, rotation);
+    this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['A'] = A ? A : '30000';
     this.add_connection(0, 0);   // +
@@ -6454,7 +6474,7 @@ schematic = (function () {
   }
 
   OpAmp.prototype.clone = function (x, y) {
-    return new OpAmp(x, y, this.rotation, this.properties['name'], this.properties['A']);
+    return new OpAmp(x, y, this.rotation, this.properties['name'], this.properties['A'],this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6644,8 +6664,9 @@ schematic = (function () {
     } else return false;
   }
 
-  function VSource(x, y, rotation, name, value) {
+  function VSource(x, y, rotation, name, value,is_const) {
     Source.call(this, x, y, rotation, name, 'v', value);
+    this.is_const=is_const;
     this.type = 'v';
   }
 
@@ -6680,11 +6701,12 @@ schematic = (function () {
   }
 
   VSource.prototype.clone = function (x, y) {
-    return new VSource(x, y, this.rotation, this.properties['name'], this.properties['value']);
+    return new VSource(x, y, this.rotation, this.properties['name'], this.properties['value'],this.is_const);
   }
 
-  function ISource(x, y, rotation, name, value) {
+  function ISource(x, y, rotation, name, value,is_const) {
     Source.call(this, x, y, rotation, name, 'i', value);
+    this.is_const = is_const;
     this.type = 'i';
   }
 
@@ -6697,7 +6719,7 @@ schematic = (function () {
   ISource.prototype.edit_properties = Source.prototype.edit_properties;
 
   ISource.prototype.clone = function (x, y) {
-    return new ISource(x, y, this.rotation, this.properties['name'], this.properties['value']);
+    return new ISource(x, y, this.rotation, this.properties['name'], this.properties['value'],this.is_const);
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -6773,6 +6795,35 @@ schematic = (function () {
   //  Module definition
   //
   ///////////////////////////////////////////////////////////////////////////////
+
+  Schematic.prototype.load_custom_tools = function (custom_parts)
+  {
+    this.custom_parts=custom_parts ;
+    for (var i = 0; i < this.custom_parts.length; i++) {
+        c = this.custom_parts[i];
+          var type = c[0];
+          var coords = c[1];
+          var properties = c[2];
+         // console.log(properties);
+
+    /*      var part = new parts_map[type][0](coords[0], coords[1], coords[2]);
+          for (var name in properties)
+            part.properties[name] = properties[name];
+
+          part.add(this);
+      */var part = new Part(this);
+      var pm = parts_map[type];
+      part.set_component(new pm[0](0, 0,0, 0), "naaah");
+      part.component.is_const= true ;
+      for (var name in properties)
+            part.component.properties[name] = properties[name];
+
+      //part.component.properties= properties;
+      this.parts_bin.push(part);
+    }
+
+
+  }
 
   var module = {
     'Schematic': Schematic,
