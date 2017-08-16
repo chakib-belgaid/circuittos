@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {StoresService} from '../stores.service';
+import {StoresService1} from '../stores.service';
 import {Chaine} from '../chaine';
 
 @Component({
@@ -10,7 +10,7 @@ import {Chaine} from '../chaine';
 export class StoresComponent implements OnInit {
   chaines: Chaine[] ;
 
-  constructor(private storesevice: StoresService) {  }
+  constructor(private storesevice: StoresService1) {  }
 
   ngOnInit() {
     this.getChaines();
@@ -19,4 +19,5 @@ export class StoresComponent implements OnInit {
   private getChaines() {
     this.storesevice.getChaines().then(chaines => this.chaines = chaines);
   }
+
 }

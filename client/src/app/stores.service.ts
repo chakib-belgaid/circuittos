@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise' ;
 
 
 @Injectable()
-export class StoresService {
+export class StoresService1 {
   private chainesUrl= 'http://127.0.0.1:8000/chains/';
    headers: Headers;
     options: RequestOptions;
