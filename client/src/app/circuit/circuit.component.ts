@@ -14,6 +14,8 @@ mode= 'false' ;
 cir =  schematic  ;
 x : any;
 @Input() is_question= 'is_question';
+
+
   constructor() { }
 
   ngOnInit() {
@@ -22,11 +24,15 @@ x : any;
   this.input.nativeElement.setAttribute('width','800');
   this.x  = new this.cir.Schematic(this.input.nativeElement);
   this.x.printi();
-  this.x.is_question = true ;
+  //this.x.is_question = true ;
+  this.x.update_schematic1() ;
   console.log(this.input.nativeElement);
   console.log(this.x);
   }
 
 
-
+  get_netlist() {
+  let d=   this.x.json();
+  console.log(d);
+  }
 }

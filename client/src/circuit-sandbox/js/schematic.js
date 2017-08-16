@@ -2065,7 +2065,6 @@ window.onload = add_schematic_handler(window.onload);	// restored from earlier E
 
 // URL of ciruit sandbox simluator, used to create shareable link.
 
-var strSimulator = 'http://spinningnumbers.org/circuit-sandbox/index.html';
 
 // from: http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
 function getURLParameterByName(name, url) {
@@ -2136,11 +2135,11 @@ schematic = (function () {
         this.cursor_x = 0;
         this.cursor_y = 0;
         this.window_list = [];  // list of pop-up windows in increasing z order
-        this.is_question = false ;
+        this.is_question = false ;// if is true chapter 1 is loaded
         // use user-supplied list of parts if supplied
         // else just populate parts bin with all the parts
         this.edits_allowed = true;
-
+        this.input = input;
         /*
         if (is_question == undefined || is_question == "None" || is_question.toLocaleLowerCase() != "true") {
 
@@ -2149,10 +2148,17 @@ schematic = (function () {
         else {
             this.is_question = true; // the mode is chapter 1
         }*/
+        //this.update_schematic1 ();
+        // set up schematic diagram canvas
+    }
+
+    var part_w = 42;   // size of a parts bin compartment
+    var part_h = 42;
+    Schematic.prototype.update_schematic1 = function () {
 
         if (!this.is_question) {
 
-            var parts = input.getAttribute('parts');
+            var parts = this.input.getAttribute('parts');
             if (parts == undefined || parts == 'None') {
                 parts = [];
                 for (var p in parts_map) parts.push(p);
@@ -2172,7 +2178,7 @@ schematic = (function () {
 
             // use user-supplied list of analyses, otherwise provide them all
             // analyses="" means no analyses
-            var analyses = input.getAttribute('analyses');
+            var analyses = this.input.getAttribute('analyses');
             if (analyses == undefined || analyses == 'None')
                 analyses = ['dc', 'ac', 'tran'];///TODO to remove
             else if (analyses == '') analyses = [];
@@ -2184,7 +2190,7 @@ schematic = (function () {
             // see what we need to submit.  Expecting attribute of the form
             // submit_analyses="{'tran':[[node_name,t1,t2,t3],...],
             //                   'ac':[[node_name,f1,f2,...],...]}"
-            var submit = input.getAttribute('submit_analyses');///TODO test an example
+            var submit = this.input.getAttribute('submit_analyses');///TODO test an example
 
             if (submit && submit.indexOf('{') != -1)
                 this.submit_analyses = JSON.parse(submit);
@@ -2253,12 +2259,12 @@ schematic = (function () {
             this.tools = [];
             this.toolbar = [];
         }
-        // set up schematic diagram canvas
+
         this.canvas = document.createElement('canvas');
-        this.width = input.getAttribute('width');
+        this.width = this.input.getAttribute('width');
         this.width = parseInt(this.width == undefined ? '400' : this.width);
         this.canvas.width = this.width;
-        this.height = input.getAttribute('height');
+        this.height = this.input.getAttribute('height');
         this.height = parseInt(this.height == undefined ? '300' : this.height);
         this.canvas.height = this.height;
         this.canvas.style.display = 'block'; //gets rid of the little sliver of default padding at the bottom.
@@ -2279,114 +2285,114 @@ schematic = (function () {
         this.bg_image.height = this.height;
 
         if (!this.diagram_only) {
-            this.canvas.tabIndex = 1; // so we get keystrokes
-            this.canvas.style.borderStyle = 'solid';
-            this.canvas.style.borderWidth = '1px';
-            this.canvas.style.borderColor = border_style;
-            this.canvas.style.outline = 'none';
-            this.canvas.style.borderRadius = '4px';
-            this.canvas.style.marginLeft = '10px';
+          this.canvas.tabIndex = 1; // so we get keystrokes
+          this.canvas.style.borderStyle = 'solid';
+          this.canvas.style.borderWidth = '1px';
+          this.canvas.style.borderColor = border_style;
+          this.canvas.style.outline = 'none';
+          this.canvas.style.borderRadius = '4px';
+          this.canvas.style.marginLeft = '10px';
         }
 
         this.canvas.schematic = this;
         if (this.edits_allowed) {
-            this.canvas.addEventListener('mousemove', function (event) {
-                if (!event) event = window.event;
-                var sch = event.target.schematic;
+          this.canvas.addEventListener('mousemove', function (event) {
+            if (!event) event = window.event;
+            var sch = event.target.schematic;
 
-                sch.canvas.relMouseCoords(event);
-                schematic_mouse_move(sch);
-            }, false);
+            sch.canvas.relMouseCoords(event);
+            schematic_mouse_move(sch);
+          }, false);
 
-            this.canvas.addEventListener('mouseover', schematic_mouse_enter, false);
-            this.canvas.addEventListener('mouseout', schematic_mouse_leave, false);
-            this.canvas.addEventListener('mousedown', function (event) {
-                if (!event) event = window.event;
-                else event.preventDefault();
-                var sch = event.target.schematic;
+          this.canvas.addEventListener('mouseover', schematic_mouse_enter, false);
+          this.canvas.addEventListener('mouseout', schematic_mouse_leave, false);
+          this.canvas.addEventListener('mousedown', function (event) {
+            if (!event) event = window.event;
+            else event.preventDefault();
+            var sch = event.target.schematic;
 
-                // determine where event happened in schematic coordinates
-                sch.canvas.relMouseCoords(event);
+            // determine where event happened in schematic coordinates
+            sch.canvas.relMouseCoords(event);
 
-                schematic_mouse_down(sch);
-            }, false);
-            this.canvas.addEventListener('mouseup', function (event) {
-                if (!event) event = window.event;
-                else event.preventDefault();
-                var sch = event.target.schematic;
+            schematic_mouse_down(sch);
+          }, false);
+          this.canvas.addEventListener('mouseup', function (event) {
+            if (!event) event = window.event;
+            else event.preventDefault();
+            var sch = event.target.schematic;
 
-                schematic_mouse_up(sch);
-            }, false);
+            schematic_mouse_up(sch);
+          }, false);
 
-            this.canvas.addEventListener('touchstart', function (event) {
-                var numTouch = event.changedTouches.length;
-                if (numTouch >= 2) return;		//let 2 or more touches be for scrolling the window
-                var touch = event.changedTouches[0];
+          this.canvas.addEventListener('touchstart', function (event) {
+            var numTouch = event.changedTouches.length;
+            if (numTouch >= 2) return;		//let 2 or more touches be for scrolling the window
+            var touch = event.changedTouches[0];
 
-                if (!event) event = window.event;
-                else event.preventDefault();
-                var sch = event.target.schematic;
+            if (!event) event = window.event;
+            else event.preventDefault();
+            var sch = event.target.schematic;
 
-                // determine where event happened in schematic coordinates
-                sch.canvas.relMouseCoords(touch);
+            // determine where event happened in schematic coordinates
+            sch.canvas.relMouseCoords(touch);
 
-                schematic_mouse_down(sch);
-            }, false);
+            schematic_mouse_down(sch);
+          }, false);
 
-            this.canvas.addEventListener('touchmove', function (event) {
-                var touch = event.changedTouches[0];
+          this.canvas.addEventListener('touchmove', function (event) {
+            var touch = event.changedTouches[0];
 
-                if (!event) event = window.event;
-                var sch = event.target.schematic;
+            if (!event) event = window.event;
+            var sch = event.target.schematic;
 
-                sch.canvas.relMouseCoords(touch);
-                schematic_mouse_move(sch);
-            }, false);
+            sch.canvas.relMouseCoords(touch);
+            schematic_mouse_move(sch);
+          }, false);
 
-            this.canvas.addEventListener('touchend', function (event) {
-                if (!event) event = window.event;
-                else event.preventDefault();
-                var sch = event.target.schematic;
+          this.canvas.addEventListener('touchend', function (event) {
+            if (!event) event = window.event;
+            else event.preventDefault();
+            var sch = event.target.schematic;
 
-                schematic_mouse_up(sch);
-            }, false);
+            schematic_mouse_up(sch);
+          }, false);
 
-            this.canvas.addEventListener('touchcancel', function (event) {
-                if (!event) event = window.event;
-                else event.preventDefault();
-                var sch = event.target.schematic;
+          this.canvas.addEventListener('touchcancel', function (event) {
+            if (!event) event = window.event;
+            else event.preventDefault();
+            var sch = event.target.schematic;
 
-                schematic_mouse_up(sch);
-            }, false);
+            schematic_mouse_up(sch);
+          }, false);
 
-            //Hammer.js provides the doubletap function for mobile, as well as double-click.
-            Hammer(this.canvas).on("doubletap", function (event) {
-                var sch = event.target.schematic;
+          //Hammer.js provides the doubletap function for mobile, as well as double-click.
+          Hammer(this.canvas).on("doubletap", function (event) {
+            var sch = event.target.schematic;
 
-                // relMouseCoords needs to know about event.pageX and event.pageY
-                // We use hammer.js' event.center and adjust for page scroll. (scroll needed?)
-                event.pageX = event.center.x + document.body.scrollLeft;
-                event.pageY = event.center.y + document.body.scrollTop;
+            // relMouseCoords needs to know about event.pageX and event.pageY
+            // We use hammer.js' event.center and adjust for page scroll. (scroll needed?)
+            event.pageX = event.center.x + document.body.scrollLeft;
+            event.pageY = event.center.y + document.body.scrollTop;
 
-                schematic_double_click(event);
-            });
+            schematic_double_click(event);
+          });
 
-            //this.canvas.addEventListener('wheel',schematic_mouse_wheel,false);		   //removed for mobile, see comment in schematic_mouse_wheel
-            //this.canvas.addEventListener('DOMMouseScroll',schematic_mouse_wheel,false);  // for FF
-            //this.canvas.addEventListener('dblclick',schematic_double_click,false);	   // replaced by Hammer.js
-            //this.canvas.addEventListener('keydown',schematic_key_down,false);
-            //this.canvas.addEventListener('keyup',schematic_key_up,false);
+          //this.canvas.addEventListener('wheel',schematic_mouse_wheel,false);		   //removed for mobile, see comment in schematic_mouse_wheel
+          //this.canvas.addEventListener('DOMMouseScroll',schematic_mouse_wheel,false);  // for FF
+          //this.canvas.addEventListener('dblclick',schematic_double_click,false);	   // replaced by Hammer.js
+          //this.canvas.addEventListener('keydown',schematic_key_down,false);
+          //this.canvas.addEventListener('keyup',schematic_key_up,false);
         }
 
         // set up message area
         if (!this.diagram_only) {
-            this.status_div = document.createElement('div');
-            this.status = document.createTextNode('');
-            this.status_div.appendChild(this.status);
-            this.status_div.style.height = '18px';
-            this.status_div.style.marginRight = '94px';
-            this.status_div.style.textAlign = "right";
-            this.status_div.style.font = '10pt sans-serif';
+          this.status_div = document.createElement('div');
+          this.status = document.createTextNode('');
+          this.status_div.appendChild(this.status);
+          this.status_div.style.height = '18px';
+          this.status_div.style.marginRight = '94px';
+          this.status_div.style.textAlign = "right";
+          this.status_div.style.font = '10pt sans-serif';
         } else this.status_div = undefined;
 
         this.connection_points = []; // location string => list of cp's
@@ -2406,34 +2412,34 @@ schematic = (function () {
         this.cmdKey = false;
 
         // make sure other code can find us!
-        input.schematic = this;
-        this.input = input;
+        this.input.schematic = this;
+        //this.input = input;
 
         // set up DOM -- use nested tables to do the layout
         var table, tr, td;
         table = document.createElement('table');
         table.rules = 'none';
         if (!this.diagram_only) {
-            //table.frame = 'box';
-            table.style.borderStyle = 'solid';
-            table.style.borderWidth = '1px';
-            table.style.borderColor = border_style;
-            table.style.backgroundColor = background_style;
-            table.style.borderRadius = '4px';
+          //table.frame = 'box';
+          table.style.borderStyle = 'solid';
+          table.style.borderWidth = '1px';
+          table.style.borderColor = border_style;
+          table.style.backgroundColor = background_style;
+          table.style.borderRadius = '4px';
         }
 
         // add tools to DOM
         if (this.toolbar.length > 0) {
-            tr = document.createElement('tr');
-            table.appendChild(tr);
-            td = document.createElement('td');
-            td.style.verticalAlign = 'top';
-            td.colSpan = 2;
-            tr.appendChild(td);
-            for (var i = 0; i < this.toolbar.length; ++i) {
-                var tool = this.toolbar[i];
-                if (tool != null) td.appendChild(tool);
-            }
+          tr = document.createElement('tr');
+          table.appendChild(tr);
+          td = document.createElement('td');
+          td.style.verticalAlign = 'top';
+          td.colSpan = 2;
+          tr.appendChild(td);
+          for (var i = 0; i < this.toolbar.length; ++i) {
+            var tool = this.toolbar[i];
+            if (tool != null) td.appendChild(tool);
+          }
         }
 
         // add canvas and parts bin to DOM
@@ -2460,22 +2466,22 @@ schematic = (function () {
         // fill in parts_table
         var parts_per_column = Math.floor(this.height / (part_h + 5));  // mysterious extra padding
         for (var i = 0; i < parts_per_column; ++i) {
-            tr = document.createElement('tr');
-            parts_table.appendChild(tr);
-            for (var j = i; j < this.parts_bin.length; j += parts_per_column) {
-                td = document.createElement('td');
-                tr.appendChild(td);
-                td.appendChild(this.parts_bin[j].canvas);
-            }
+          tr = document.createElement('tr');
+          parts_table.appendChild(tr);
+          for (var j = i; j < this.parts_bin.length; j += parts_per_column) {
+            td = document.createElement('td');
+            tr.appendChild(td);
+            td.appendChild(this.parts_bin[j].canvas);
+          }
         }
 
         if (this.status_div != undefined) {
-            tr = document.createElement('tr');
-            table.appendChild(tr);
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.colSpan = 2;
-            td.appendChild(this.status_div);
+          tr = document.createElement('tr');
+          table.appendChild(tr);
+          td = document.createElement('td');
+          tr.appendChild(td);
+          td.colSpan = 2;
+          td.appendChild(this.status_div);
         }
 
         // add to dom
@@ -2483,7 +2489,7 @@ schematic = (function () {
         // drag starts.  Just do this in schematic tool...
         var toplevel = document.createElement('div');
         toplevel.onselectstart = function () {
-            return false;
+          return false;
         };
         toplevel.appendChild(table);
         this.input.parentNode.insertBefore(toplevel, this.input.nextSibling);
@@ -2494,23 +2500,20 @@ schematic = (function () {
         console.log(level);// level = circuit string from URL
         if (level === null) {
 
-            this.load_schematic(
-                this.input.getAttribute('level'));	// level = circuit string from HTML
-            //this.input.getAttribute('initial_value'));
+          this.load_schematic(
+            this.input.getAttribute('level'));	// level = circuit string from HTML
+          //this.input.getAttribute('initial_value'));
         }
         else {
 
-            lol = $.getJSON(level);
-            console.log("hhhh	");
-            this.load_schematic(level);
+          lol = $.getJSON(level);
+          console.log("hhhh	");
+          this.load_schematic(level);
         }
 
         // start by centering diagram on the screen
         this.zoomall();
-    }
-
-    var part_w = 42;   // size of a parts bin compartment
-    var part_h = 42;
+      }
 
     Schematic.prototype.add_component = function (new_c) {
         this.components.push(new_c);
