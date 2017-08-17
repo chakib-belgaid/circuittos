@@ -3929,7 +3929,7 @@ schematic = (function () {
             if (sch.components[i].select(x, y, event.shiftKey)) {
               if (sch.components[i].selected) {
                   //console.log(sch.components[i]);
-
+                console.log("nothng");
                 ///TODO here we can get the selected item
                 sch.on_click_component(sch.components[i]);
                 sch.drag_begin();
@@ -4117,7 +4117,7 @@ schematic = (function () {
       // see if we double-clicked a component.  If so, edit it's properties
       for (var i = sch.components.length - 1; i >= 0; --i)
 
-        if (sch.components[i].edit_properties(x, y))
+        if (! sch.components[i].is_const &&   sch.components[i].edit_properties(x, y))
           break;
     }
     return false;

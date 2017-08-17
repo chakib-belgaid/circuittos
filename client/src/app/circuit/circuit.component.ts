@@ -26,6 +26,7 @@ x : any;
   this.x.printi();
   //this.x.is_question = true ;
    this.x.parts.push('c');
+   this.x.parts.push('s');
    this.x.load_custom_tools([["r",[104,72,0],{"name":"rito","r":"1.5"}]]);
 
    this.x.update_schematic1() ;
