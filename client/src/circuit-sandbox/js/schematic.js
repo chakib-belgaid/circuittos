@@ -2138,7 +2138,7 @@ schematic = (function () {
     this.is_question = false;// if is true chapter 1 is loaded
     // use user-supplied list of parts if supplied
     // else just populate parts bin with all the parts
-    this.edits_allowed = true;
+    this.allow_edits = true;
     this.input = input;
     this.parts = []; // representation with mnemonics ex Resistor : R , Capacitor C ...
     this.analyses = [];// full array = ['dc', 'ac', 'tran']
@@ -2186,7 +2186,7 @@ schematic = (function () {
               this.parts = [];
               for (var p in parts_map) this.parts.push(p);
           } else if (this.parts == '') {
-              this.edits_allowed = false;
+              this.allow_edits = false;
               this.parts = [];
           } else this.parts = this.parts.split(',');
           */
@@ -2221,7 +2221,7 @@ schematic = (function () {
       this.tools['help'] = this.add_tool(help_icon,i18n.Help,this.help);
       this.enable_tool('help', true);
     }*/
-    if (this.edits_allowed) {
+    if (this.allow_edits) {
 
       //this.tools['grid'] = this.add_tool(grid_icon,i18n.Grid,this.toggle_grid);
       //this.enable_tool('grid',true);
@@ -2304,7 +2304,7 @@ schematic = (function () {
     }
 
     this.canvas.schematic = this;
-    if (this.edits_allowed) {
+    if (this.allow_edits) {
       this.canvas.addEventListener('mousemove', function (event) {
         if (!event) event = window.event;
         var sch = event.target.schematic;
@@ -2315,38 +2315,6 @@ schematic = (function () {
 
       this.canvas.addEventListener('mouseover', schematic_mouse_enter, false);
       this.canvas.addEventListener('mouseout', schematic_mouse_leave, false);
-      this.canvas.addEventListener('mousedown', function (event) {
-        if (!event) event = window.event;
-        else event.preventDefault();
-        var sch = event.target.schematic;
-
-        // determine where event happened in schematic coordinates
-        sch.canvas.relMouseCoords(event);
-
-        schematic_mouse_down(sch);
-      }, false);
-      this.canvas.addEventListener('mouseup', function (event) {
-        if (!event) event = window.event;
-        else event.preventDefault();
-        var sch = event.target.schematic;
-
-        schematic_mouse_up(sch);
-      }, false);
-
-      this.canvas.addEventListener('touchstart', function (event) {
-        var numTouch = event.changedTouches.length;
-        if (numTouch >= 2) return;		//let 2 or more touches be for scrolling the window
-        var touch = event.changedTouches[0];
-
-        if (!event) event = window.event;
-        else event.preventDefault();
-        var sch = event.target.schematic;
-
-        // determine where event happened in schematic coordinates
-        sch.canvas.relMouseCoords(touch);
-
-        schematic_mouse_down(sch);
-      }, false);
 
       this.canvas.addEventListener('touchmove', function (event) {
         var touch = event.changedTouches[0];
@@ -2375,7 +2343,52 @@ schematic = (function () {
       }, false);
 
       //Hammer.js provides the doubletap function for mobile, as well as double-click.
-      Hammer(this.canvas).on("doubletap", function (event) {
+
+      //this.canvas.addEventListener('wheel',schematic_mouse_wheel,false);		   //removed for mobile, see comment in schematic_mouse_wheel
+      //this.canvas.addEventListener('DOMMouseScroll',schematic_mouse_wheel,false);  // for FF
+      //this.canvas.addEventListener('dblclick',schematic_double_click,false);	   // replaced by Hammer.js
+      //this.canvas.addEventListener('keydown',schematic_key_down,false);
+      //this.canvas.addEventListener('keyup',schematic_key_up,false);
+    }
+    else///HINT in the level 1
+    {
+
+    }
+      this.canvas.addEventListener('mousedown', function (event) {
+        if (!event) event = window.event;
+        else event.preventDefault();
+        var sch = event.target.schematic;
+
+        // determine where event happened in schematic coordinates
+        sch.canvas.relMouseCoords(event);
+
+        schematic_mouse_down(sch);
+      }, false);
+      this.canvas.addEventListener('mouseup', function (event) {
+        if (!event) event = window.event;
+        else event.preventDefault();
+        var sch = event.target.schematic;
+
+        schematic_mouse_up(sch);
+      }, false);
+
+
+    this.canvas.addEventListener('touchstart', function (event) {
+        var numTouch = event.changedTouches.length;
+        if (numTouch >= 2) return;		//let 2 or more touches be for scrolling the window
+        var touch = event.changedTouches[0];
+
+        if (!event) event = window.event;
+        else event.preventDefault();
+        var sch = event.target.schematic;
+
+        // determine where event happened in schematic coordinates
+        sch.canvas.relMouseCoords(touch);
+
+        schematic_mouse_down(sch);
+      }, false);
+
+     Hammer(this.canvas).on("doubletap", function (event) {
         var sch = event.target.schematic;
 
         // relMouseCoords needs to know about event.pageX and event.pageY
@@ -2385,13 +2398,6 @@ schematic = (function () {
 
         schematic_double_click(event);
       });
-
-      //this.canvas.addEventListener('wheel',schematic_mouse_wheel,false);		   //removed for mobile, see comment in schematic_mouse_wheel
-      //this.canvas.addEventListener('DOMMouseScroll',schematic_mouse_wheel,false);  // for FF
-      //this.canvas.addEventListener('dblclick',schematic_double_click,false);	   // replaced by Hammer.js
-      //this.canvas.addEventListener('keydown',schematic_key_down,false);
-      //this.canvas.addEventListener('keyup',schematic_key_up,false);
-    }
 
     // set up message area
     if (!this.diagram_only) {
@@ -4089,6 +4095,7 @@ schematic = (function () {
 
 
   function schematic_double_click(event) {
+    console.log("double clicked");
     if (!event) event = window.event;
     else event.preventDefault();
     var sch = event.target.schematic;
