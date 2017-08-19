@@ -2840,7 +2840,43 @@ schematic = (function () {
   //  Netlist and Simulation interface
   //
   ////////////////////////////////////////////////////////////////////////////////
-
+  Schematic.prototype.get_json = function (json)
+  {
+     for (var i = json.length - 1; i >= 0; --i) {
+        var c = json[i];
+        if (c[0] == 'view') {
+          this.ac_fstart = c[5];
+          this.ac_fstop = c[6];
+          this.ac_source_name = c[7];
+          this.tran_npts = c[8];
+          this.tran_tstop = c[9];
+          this.dc_max_iters = c[10];
+        } else if (c[0] == 'w') {
+          // wire
+          this.add_wire(c[1][0], c[1][1], c[1][2], c[1][3]);
+        } else if (c[0] == 'dc') {
+          this.dc_results = c[1];
+        } else if (c[0] == 'transient') {
+          this.transient_results = c[1];
+        } else if (c[0] == 'ac') {
+          this.ac_results = c[1];
+        } else {
+          // ordinary component
+          //  c := [type, coords, properties, connections]
+          var type = c[0];
+          var coords = c[1];
+          var properties = c[2];
+          console.log(c);
+          if (c.length < 5)
+            c.push(true);
+          var part = new parts_map[type][0](coords[0], coords[1], coords[2]);
+          for (var name in properties)
+            part.properties[name] = properties[name];
+          part.is_const = c[4];
+          part.add(this);
+        }
+      }
+  }
   // load diagram from JSON representation
   Schematic.prototype.load_schematic = function (value, initial_value) {
     // use default value if no schematic info in value

@@ -52,4 +52,8 @@ x : any;
   console.log(d);
   }
 
+  save_netlist() {
+    let d = this.x.json();
+    console.log(d);
+  }
 }

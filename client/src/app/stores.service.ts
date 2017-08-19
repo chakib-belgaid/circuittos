@@ -20,8 +20,7 @@ export class StoresService1 {
         .toPromise()
         .then(response => {return response.json() as Chaine[];
         })
-        .catch(this.handleError);
-
+        .catch(this.handleError)
   }
 
   private handleError(error: any): Promise<any> {
