@@ -16,6 +16,13 @@ export class CircuitsService {
 
   }
 
+  save_circuit(circuit) : Promise<any>
+  {
+    return this.http.post(this.CircuitUrl,circuit,this.options).toPromise()
+      .then(value => {value;console.log(value)})
+      .catch(reason => console.log(reason));
+  }
+
   /*getCircuit(num): Promise<Circuit>{
     return this.http.get(this.CircuitUrl+num+'/')
       .toPromise(response =>{return response.json() as Circuit })

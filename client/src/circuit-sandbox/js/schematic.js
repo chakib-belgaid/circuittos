@@ -2139,9 +2139,10 @@ schematic = (function () {
     // use user-supplied list of parts if supplied
     // else just populate parts bin with all the parts
     this.allow_edits = true;
+    this.is_static = false ; // this is for chapter one
     this.input = input;
     this.parts = []; // representation with mnemonics ex Resistor : R , Capacitor C ...
-    this.analyses = [];// full array = ['dc', 'ac', 'tran']
+      this.analyses = [];// full array = ['dc', 'ac', 'tran']
     this.parts_bin = [];
     this.submit_analyses = undefined;
     // toolbar
@@ -6220,7 +6221,7 @@ schematic = (function () {
     this.draw_line(c, 4, 30, -4, 34);
     this.draw_line(c, -4, 34, 0, 36);
     this.draw_line(c, 0, 36, 0, 48);
-    if (this.properties['r'])
+    if (!this.sch.is_static && this.properties['r']  )
       this.draw_text(c, this.properties['r'] + '\u03A9', 8, 24, 3, property_size);
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -8, 24, 5, property_size);
@@ -6260,7 +6261,7 @@ schematic = (function () {
     this.draw_line(c, -8, 22, 8, 22);
     this.draw_line(c, -8, 26, 8, 26);
     this.draw_line(c, 0, 26, 0, 48);
-    if (this.properties['c'])
+    if (!this.sch.is_static && this.properties['c'])
       this.draw_text(c, this.properties['c'] + 'F', 9, 24, 3, property_size);
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -9, 24, 5, property_size);
@@ -6302,7 +6303,7 @@ schematic = (function () {
     this.draw_arc(c, 0, 30, 4, 5 * Math.PI / 4, 2 * Math.PI / 4);
     this.draw_line(c, 0, 34, 0, 48);
 
-    if (this.properties['l'])
+    if (!this.sch.is_static &&  this.properties['l'])
       this.draw_text(c, this.properties['l'] + 'H', 8, 24, 3, property_size);
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -6, 24, 5, property_size);
@@ -6357,7 +6358,7 @@ schematic = (function () {
       this.draw_line(c, -10, 36, 10, 36);
     }
 
-    if (this.properties['area'])
+    if (!this.sch.is_static && this.properties['area'])
       this.draw_text(c, this.properties['area'], 10, 24, 3, property_size);
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -10, 24, 5, property_size);
@@ -6579,7 +6580,7 @@ schematic = (function () {
 
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -16, 24, 5, property_size);
-    if (this.properties['value'])
+    if (!this.sch.is_static && this.properties['value'])
       this.draw_text(c, this.properties['value'], 16, 24, 3, property_size);
   }
 
@@ -6879,6 +6880,15 @@ schematic = (function () {
     }
 
 
+  }
+  Schematic.prototype.extract_vars = function (expression)
+  {
+    //let math = require('mathjs');
+    let re = /([A-Za-z]\d*)+/g;
+    let vars = [];
+    while(s = re.exec(expression))
+      vars.push(s[1]);
+      return vars ;
   }
 
   var module = {
