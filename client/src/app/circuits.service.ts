@@ -16,10 +16,10 @@ export class CircuitsService {
 
   }
 
-  getCircuit(num): Promise<Circuit>{
+  /*getCircuit(num): Promise<Circuit>{
     return this.http.get(this.CircuitUrl+num+'/')
       .toPromise(response =>{return response.json() as Circuit })
-  }
+  }*/
 
 
 }

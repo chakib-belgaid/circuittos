@@ -2200,8 +2200,8 @@ schematic = (function () {
           else if (this.analyses == '') this.analyses = [];
           else this.analyses = this.analyses.split(',');
           */
-    if (this.parts.length == 0 && this.analyses.length == 0) this.diagram_only = true;
-    else this.diagram_only = false;
+    //if (this.parts.length == 0 && this.analyses.length == 0) this.diagram_only = true;
+    //else this.diagram_only = false;
 
     // see what we need to submit.  Expecting attribute of the form
     // submit_analyses="{'tran':[[node_name,t1,t2,t3],...],
@@ -2271,6 +2271,7 @@ schematic = (function () {
 
     this.canvas = document.createElement('canvas');
     this.width = this.input.getAttribute('width');
+    //  consol.log(this.width);
     this.width = parseInt(this.width == undefined ? '400' : this.width);
     this.canvas.width = this.width;
     this.height = this.input.getAttribute('height');
@@ -2527,9 +2528,11 @@ schematic = (function () {
     }*/
     //this.load_schematic(null,null);
     // start by centering diagram on the screen
-    console.log(this.parts_bin);
+    //console.log(this.parts_bin);
     this.redraw_background();
     this.zoomall();
+      //console.log(this.parts_bin);
+
   }
 
   Schematic.prototype.add_component = function (new_c) {
@@ -3747,6 +3750,7 @@ schematic = (function () {
   }
 
   Schematic.prototype.draw_text = function (c, text, x, y, size) {
+
     c.font = size * this.scale + 'pt sans-serif'
     c.fillText(text, (x - this.origin_x) * this.scale, (y - this.origin_y) * this.scale);
   }
@@ -4174,7 +4178,7 @@ schematic = (function () {
   ////////////////////////////////////////////////////////////////////////////////
 
   Schematic.prototype.message = function (message) {
-    this.status.nodeValue = message;
+      this.status.nodeValue = message;
   }
 
   Schematic.prototype.append_message = function (message) {
@@ -5615,9 +5619,19 @@ schematic = (function () {
       var fields = [];
       for (var i in this.properties)
         // underscore at beginning of property name => system property
-        if (i.charAt(0) != '_')
+      {console.log(this.sch.is_static);
+        //if static mode is applied than we can only edit the name
+        if(this.sch.is_static )
+        {
+        if ( i =='name')
           fields[i] = build_input('text', 10, this.properties[i]);
 
+        }
+        else {
+          if (i.charAt(0) != '_')
+            fields[i] = build_input('text', 10, this.properties[i]);
+        }
+      }
       var content = build_table(fields);
       content.fields = fields;
       content.component = this;
@@ -6844,9 +6858,8 @@ schematic = (function () {
     this.custom_parts=custom_parts ;
     for (var i = 0; i < this.custom_parts.length; i++) {
         c = this.custom_parts[i];
-          var type = c[0];
-          var coords = c[1];
-          var properties = c[2];
+          var type = c[0]
+          var properties = c[1];
          // console.log(properties);
 
     /*      var part = new parts_map[type][0](coords[0], coords[1], coords[2]);

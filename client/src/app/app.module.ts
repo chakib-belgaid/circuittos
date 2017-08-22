@@ -6,12 +6,14 @@ import { StoresComponent } from './stores/stores.component';
 import {StoresService1} from './stores.service';
 import {HttpModule} from '@angular/http';
 import { CircuitComponent } from './circuit/circuit.component';
+import { StaticCircuitDesignerComponent } from './static-circuit-designer/static-circuit-designer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StoresComponent,
-    CircuitComponent
+    CircuitComponent,
+    StaticCircuitDesignerComponent
   ],
   imports: [
     BrowserModule, HttpModule,
