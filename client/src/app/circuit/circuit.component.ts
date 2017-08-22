@@ -50,6 +50,7 @@ x : any;
   this.x.load_schematic(level);
   this.x.load_custom_tools([["r",[104,72,0],{"name":"rito","r":"1.5","_json_":0},["1","0"]]]);
   console.log(d);
+
   }
 
   save_netlist() {
