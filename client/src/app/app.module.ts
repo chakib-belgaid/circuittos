@@ -10,6 +10,7 @@ import { StaticCircuitDesignerComponent } from './static-circuit-designer/static
 import {CircuitsService} from './circuits.service';
 import { StaticCircuitChallangerComponent } from './static-circuit-challanger/static-circuit-challanger.component';
 import {RouterModule, Routes} from '@angular/router';
+import { GuidedCircuitDesignerComponent } from './guided-circuit-designer/guided-circuit-designer.component';
 
 const route: Routes = [
   {path : 'designer/:id' ,
@@ -23,6 +24,12 @@ component: StaticCircuitDesignerComponent
   , {path : 'designer' ,
 component: StaticCircuitDesignerComponent
   }
+, {path : 'designer1/:id' ,
+component: GuidedCircuitDesignerComponent
+  }
+, {path : 'designer1' ,
+component: GuidedCircuitDesignerComponent
+  }
 
 ];
 
@@ -33,6 +40,7 @@ component: StaticCircuitDesignerComponent
     CircuitComponent,
     StaticCircuitDesignerComponent,
     StaticCircuitChallangerComponent,
+    GuidedCircuitDesignerComponent,
   ],
   imports: [
     BrowserModule, HttpModule,

@@ -5630,7 +5630,8 @@ schematic = (function () {
       var fields = [];
       for (var i in this.properties)
         // underscore at beginning of property name => system property
-      {console.log(this.sch.is_static);
+      {
+        //console.log(this.sch.is_static);
         //if static mode is applied than we can only edit the name
         if(this.sch.is_static )
         {
@@ -6961,6 +6962,8 @@ schematic = (function () {
 
       //part.component.properties= properties;
       this.parts_bin.push(part);
+
+
     }
 
 
@@ -7019,6 +7022,27 @@ schematic = (function () {
     }
 
 
+  }
+
+  Schematic.prototype.save_components = function()
+  {
+    //[["r" ,{"name":"rito","r":"1.5"}]]
+    comps = [];
+    for ( c of this.components)
+    {
+      if( c.selected)
+      {
+        let x = [c.type+""  ];
+        let y ={};
+        for(j in c.properties)
+        {
+          y[j+""] = c.properties[j]+"" ;
+        }
+        x.push(y);
+        comps.push(x);
+      }
+    }
+    return comps ;
   }
 
   var module = {
