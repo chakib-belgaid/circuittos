@@ -70,6 +70,15 @@ lvl :string;
   calculate() {
     let operators = this.circuit.extract_vars(this.equation);// to remove v=
     this.circuit.randomize();
+    let  ops:{[id:string ] : string} = {};
+    for(let i of operators )
+    { let x = this.circuit.get_component(i);
+    console.log(x.properties.indexOf(1),x);
+
+      ops[i] = x.val;
+
+    }
+    console.log(ops);
     /*let ops = this.fill_randome(operators);
     //let ops =this.circuit.dc_analysis();
     for( let op in ops)
@@ -77,11 +86,11 @@ lvl :string;
       let x =this.circuit.get_component(op);
       x.properties[1]= ops[op] ;
     }
-
+    */
     let x = math.eval(this.equation,ops);
     this.circuit.dc_analysis();
     let y = this.circuit.dc_results['v3'];
-    console.log(x,y);*/
+    console.log(x,y);
 
   }
   fill_randome(operators ){

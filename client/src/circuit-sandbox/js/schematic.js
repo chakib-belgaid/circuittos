@@ -5380,6 +5380,7 @@ schematic = (function () {
     this.connections = [];
     this.is_const=false ;
 
+
   }
 
   Component.prototype.randomize = function(){}
@@ -6213,8 +6214,13 @@ schematic = (function () {
     this.update_coords();
   }
 
+
   Resistor.prototype = new Component();
   Resistor.prototype.constructor = Resistor;
+  Resistor.prototype.randomize = function() {
+    let min = 1 , max = 5320.4 ;
+    this.val = this.properties['r'] = (Math.random() * (max -min + 1) + min )+"";
+  }
 
   Resistor.prototype.toString = function () {
     return '<Resistor ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
@@ -6265,6 +6271,12 @@ schematic = (function () {
     return '<Capacitor ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
   }
 
+   Capacitor.prototype.randomize = function() {
+    let min = 1 , max = 5320.4*1000 ;
+    this.val = this.properties['c'] = (Math.random() * (max -min + 1) + min)+"p";
+  }
+
+
   Capacitor.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 22);
@@ -6305,6 +6317,12 @@ schematic = (function () {
     return '<Inductor ' + this.properties['l'] + ' (' + this.x + ',' + this.y + ')>';
   }
 
+    Inductor.prototype.randomize = function() {
+    let min = 1 , max = 5320.4 *1000;
+    this.val = this.properties['l'] = (Math.random() * (max -min + 1) + min )+"n";
+  }
+
+
   Inductor.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 14);
@@ -6344,11 +6362,18 @@ schematic = (function () {
     this.update_coords();
   }
 
+
   Diode.prototype = new Component();
   Diode.prototype.constructor = Diode;
 
   Diode.prototype.toString = function () {
     return '<Diode ' + this.properties['area'] + ' (' + this.x + ',' + this.y + ')>';
+  }
+
+  Diode.prototype.randomize = function() {
+    let min = 1 , max = 100 ;
+    this.val = this.properties['area'] = (Math.random() * (max -min + 1) + min )+"";
+
   }
 
   Diode.prototype.draw = function (c) {
@@ -6417,11 +6442,18 @@ schematic = (function () {
     this.update_coords();
   }
 
+
+
   NFet.prototype = new Component();
   NFet.prototype.constructor = NFet;
 
   NFet.prototype.toString = function () {
     return '<NFet ' + this.properties['WL'] + ' (' + this.x + ',' + this.y + ')>';
+  }
+
+  NFet.prototype.randomize = function() {
+    let min = 1 , max = 100 ;
+    this.val = this.properties['WL'] = (Math.random() * (max -min + 1) + min )+"";
   }
 
   NFet.prototype.draw = function (c) {
@@ -6464,8 +6496,14 @@ schematic = (function () {
     this.update_coords();
   }
 
+
   PFet.prototype = new Component();
   PFet.prototype.constructor = PFet;
+
+  PFet.prototype.randomize = function() {
+    let min = 1 , max = 100 ;
+   this.val =  this.properties['WL'] = (Math.random() * (max -min + 1) + min )+"";
+  }
 
   PFet.prototype.toString = function () {
     return '<PFet ' + this.properties['WL'] + ' (' + this.x + ',' + this.y + ')>';
@@ -6563,11 +6601,18 @@ schematic = (function () {
     this.content = document.createElement('div');  // used by edit_properties
   }
 
+
   Source.prototype = new Component();
   Source.prototype.constructor = Source;
 
   Source.prototype.toString = function () {
     return '<' + this.type + 'source ' + this.properties['params'] + ' (' + this.x + ',' + this.y + ')>';
+  }
+
+  Source.prototype.randomize = function() {
+    let min = 0.5 , max = 25 ;
+    this.val = (Math.random() * (max -min + 1) + min );
+    this.properties['value'] = 'dc('+this.val+")";
   }
 
   Source.prototype.draw = function (c) {
@@ -6738,7 +6783,19 @@ schematic = (function () {
     this.type = 'v';
   }
 
+ /* VSource.prototype.randomize = function() {
+    let min = 0.1 , max = 25 ;
+    this.properties['value'] = 'dc('+(Math.random() * (max -min + 1) + min )+")";
+  } */
+
+
   VSource.prototype = new Component();
+   VSource.prototype.randomize = function() {
+    let min = 0.5 , max = 25 ;
+    this.val =(Math.random() * (max -min + 1) + min );
+      this.properties['value'] = 'dc('+this.val+")";
+  }
+
   VSource.prototype.constructor = VSource;
   VSource.prototype.toString = Source.prototype.toString;
   VSource.prototype.draw = Source.prototype.draw;
@@ -6780,6 +6837,12 @@ schematic = (function () {
 
   ISource.prototype = new Component();
   ISource.prototype.constructor = ISource;
+  ISource.prototype.randomize = function() {
+    let min = 0.5 , max = 25 ;
+    this.val = (Math.random() * (max -min + 1) + min );
+      this.properties['value'] = 'dc('+this.val+")";
+  }
+
   ISource.prototype.toString = Source.prototype.toString;
   ISource.prototype.draw = Source.prototype.draw;
   ISource.prototype.clone = Source.prototype.clone;
@@ -6902,7 +6965,7 @@ schematic = (function () {
   }
 
   Schematic.prototype.get_component = function(name)
-  { console.log(Math.random());
+  {
     for ( c in this.components)
     { //console.log(this.components[c]);
       if( this.components[c].properties['name']=== name)
