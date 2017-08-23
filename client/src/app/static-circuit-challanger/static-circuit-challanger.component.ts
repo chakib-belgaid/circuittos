@@ -90,7 +90,7 @@ lvl :string;
     { let x = this.circuit.get_component(i);
     //console.log(x.properties.indexOf(1),x);
       if(x)
-      ops[i] = x.val;
+      ops[i] = x.get_value();
 
 
     }

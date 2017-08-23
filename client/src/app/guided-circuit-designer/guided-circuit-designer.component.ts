@@ -9,6 +9,7 @@ import {CircuitsService} from "../circuits.service";
 })
 export class GuidedCircuitDesignerComponent implements OnInit {
 @ViewChild('circuit') input ;
+@ViewChild('my_components') my_table;
 circuit: any ;
   constructor( private circuitService : CircuitsService ,
  private route: ActivatedRoute, ) { }
@@ -43,8 +44,18 @@ circuit: any ;
   }
 
   add_component() {
-  let d = this.circuit.save_components();
+    this.circuit.custom_table = this.my_table.nativeElement;
+    //console.log(this.my_table) ;
+    let d = this.circuit.save_components();
     this.circuit.load_custom_tools(d);
     //this.circuit.update_schematic1() ;
+  }
+
+  remove_component() {
+      this.circuit.remove_parts();
+  }
+
+  save_level() {
+
   }
 }

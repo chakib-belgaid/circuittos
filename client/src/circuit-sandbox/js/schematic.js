@@ -2078,6 +2078,7 @@ function getURLParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+
 schematic = (function () {
   var element_style = 'rgb(255,255,255)';
   var background_style = 'rgb(246,247,247)';	// KA gray97 #F6F7F7
@@ -2147,6 +2148,7 @@ schematic = (function () {
     // toolbar
     this.tools = [];
     this.toolbar = [];
+    this.custom_table = undefined;
 
     /* this is the part of functions */
     this.on_click_component = function (t) {};
@@ -2358,9 +2360,14 @@ schematic = (function () {
     }
       this.canvas.addEventListener('mousedown', function (event) {
         if (!event) event = window.event;
-        else event.preventDefault();
-        var sch = event.target.schematic;
 
+        else event.preventDefault();
+
+        var sch = event.target.schematic;
+      for(c of sch.parts_bin)
+        {
+         c.select(false);
+        }
         // determine where event happened in schematic coordinates
         sch.canvas.relMouseCoords(event);
 
@@ -2479,11 +2486,13 @@ schematic = (function () {
     parts_table.frame = 'void';
     parts_table.cellPadding = '0';
     parts_table.cellSpacing = '0';
+    this.parts_table = parts_table ;
 
     // fill in parts_table
     var parts_per_column = Math.floor(this.height / (part_h + 5));  // mysterious extra padding
     for (var i = 0; i < parts_per_column; ++i) {
       tr = document.createElement('tr');
+
       parts_table.appendChild(tr);
       for (var j = i; j < this.parts_bin.length; j += parts_per_column) {
         td = document.createElement('td');
@@ -5219,8 +5228,8 @@ schematic = (function () {
 
     // paint background color behind selected part in bin,
     // WMc: commmented out (background stays stuck on in mobile). Black border is sufficient.
-    //c.fillStyle = this.selected ? selected_style : background_style;
-    //c.fillRect(0,0,part_w,part_h);
+    c.fillStyle = this.selected ? selected_style : background_style;
+    c.fillRect(0,0,part_w,part_h);
 
     if (this.component) this.component.draw(c);
   }
@@ -5277,7 +5286,7 @@ schematic = (function () {
     //document.onselectstart = function () { return false; };
 
     canvas.style.borderColor = border_style;
-    part.sch.message(part.tip + i18n.drag_onto_diagram);
+    part.sch.message(part.tip );
     //part.sch.message(part.tip);
     return false;
   }
@@ -5302,6 +5311,10 @@ schematic = (function () {
     var part = event.target.part;
     console.log(part);
     part.select(true);
+    for(c of part.sch.parts_bin)
+    { if (c != part)
+      c.select(false) ;
+    }
     part.sch.new_part = part;
     return false;
   }
@@ -5309,9 +5322,9 @@ schematic = (function () {
   function part_mouse_up(event) {
     if (!event) event = window.event;
     var part = event.target.part;
-
-    //part.select(false);					// commented out for touch
-    //part.sch.new_part = undefined;		// for touch, place parts with touch-touch instead of drag
+    if(!part.component.is_const)
+    part.select(false);					// commented out for touch
+    part.sch.new_part = undefined;		// for touch, place parts with touch-touch instead of drag
     return false;							// on desktop, both drag and click-click work
   }
 
@@ -5383,6 +5396,7 @@ schematic = (function () {
   }
 
   Component.prototype.randomize = function(){}
+  Component.prototype.get_value = function(){}
 
   Component.prototype.json = function (index) {
     this.properties['_json_'] = index; // remember where we are in the JSON list
@@ -6219,10 +6233,14 @@ schematic = (function () {
   Resistor.prototype.constructor = Resistor;
   Resistor.prototype.randomize = function() {
     let min = 1 , max = 5320.4e3 ;
-      this.val = (Math.random() * (max -min + 1) + min );
-   this.properties['r'] = this.val+"";
+    let val = (Math.random() * (max -min + 1) + min );
+   this.properties['r'] = val+"";
 
     //this.val = this.properties['r'] = (Math.random() * (max -min + 1) + min )+"";
+  }
+
+  Resistor.prototype.get_value = function(){
+    return Number(this.properties['r']);
   }
 
   Resistor.prototype.toString = function () {
@@ -6260,7 +6278,7 @@ schematic = (function () {
     Component.call(this, 'c', x, y, rotation);
     this.properties['name'] = name;
     this.is_const=is_const;
-    this.properties['c'] = c ? c : '1p';
+    this.properties['c'] = c ? c : '1e-12';
     this.add_connection(0, 0);
     this.add_connection(0, 48);
     this.bounding_box = [-8, 0, 8, 48];
@@ -6276,10 +6294,14 @@ schematic = (function () {
 
    Capacitor.prototype.randomize = function() {
     let min = 1e-12 , max = 5320.4e-6 ;
-      this.val = (Math.random() * (max -min + 1) + min );
-   this.properties['c'] = this.val+"";
+      let val = (Math.random() * (max -min + 1) + min );
+   this.properties['c'] = val+"";
 
  //   this.val = this.properties['c'] = (Math.random() * (max -min + 1) + min)+"p";
+  }
+
+  Capacitor.prototype.get_value = function(){
+    return Number(this.properties['c']);
   }
 
 
@@ -6309,7 +6331,7 @@ schematic = (function () {
     Component.call(this, 'l', x, y, rotation);
     this.properties['name'] = name;
     this.is_const=is_const;
-    this.properties['l'] = l ? l : '1n';
+    this.properties['l'] = l ? l : '1e-9';
     this.add_connection(0, 0);
     this.add_connection(0, 48);
     this.bounding_box = [-4, 0, 5, 48];
@@ -6325,10 +6347,14 @@ schematic = (function () {
 
     Inductor.prototype.randomize = function() {
     let min = 1e-9  , max = 5320.4e-6;
-    this.val = (Math.random() * (max -min + 1) + min );
-    this.properties['l'] = this.val+"";
+    let val = (Math.random() * (max -min + 1) + min );
+    this.properties['l'] = val+"";
 
  //   this.val = this.properties['l'] = (Math.random() * (max -min + 1) + min )+"n";
+  }
+
+  Inductor.prototype.get_value = function(){
+    return Number(this.properties['l']);
   }
 
 
@@ -6381,10 +6407,14 @@ schematic = (function () {
 
   Diode.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-      this.val = (Math.random() * (max -min + 1) + min );
-   this.properties['area'] = this.val+"";
+      let val = (Math.random() * (max -min + 1) + min );
+   this.properties['area'] = val+"";
 
   }
+Diode.prototype.get_value = function(){
+    return Number(this.properties['area']);
+  }
+
 
   Diode.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
@@ -6463,8 +6493,12 @@ schematic = (function () {
 
   NFet.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-    this.val=  (Math.random() * (max -min + 1) + min );
-    this.properties['WL'] = this.val+"";
+    val=  (Math.random() * (max -min + 1) + min );
+    this.properties['WL'] = val+"";
+  }
+
+  NFet.prototype.get_value = function(){
+    return Number(this.properties['WL']);
   }
 
   NFet.prototype.draw = function (c) {
@@ -6513,8 +6547,12 @@ schematic = (function () {
 
   PFet.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-   this.val = (Math.random() * (max -min + 1) + min );
-   this.properties['WL'] = this.val+"";
+   let val = (Math.random() * (max -min + 1) + min );
+   this.properties['WL'] = val+"";
+  }
+
+  PFet.prototype.get_value = function(){
+    return Number(this.properties['WL']);
   }
 
   PFet.prototype.toString = function () {
@@ -6623,9 +6661,14 @@ schematic = (function () {
 
   Source.prototype.randomize = function() {
     let min = 0.5 , max = 25 ;
-    this.val = (Math.random() * (max -min + 1) + min );
-    this.properties['value'] = 'dc('+this.val+")";
+    let val = (Math.random() * (max -min + 1) + min );
+    this.properties['value'] = 'dc('+val+")";
   }
+
+  Source.prototype.get_value = function(){
+    return Number(this.properties['value'].substring(3,this.properties['value'].length-1));
+  }
+
 
   Source.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
@@ -6804,8 +6847,13 @@ schematic = (function () {
   VSource.prototype = new Component();
    VSource.prototype.randomize = function() {
     let min = 0.5 , max = 25 ;
-    this.val =(Math.random() * (max -min + 1) + min );
-      this.properties['value'] = 'dc('+this.val+")";
+    val =(Math.random() * (max -min + 1) + min );
+      this.properties['value'] = 'dc('+val+")";
+  }
+
+
+  VSource.prototype.get_value = function(){
+    return Number(this.properties['value'].substring(3,this.properties['value'].length-1));
   }
 
   VSource.prototype.constructor = VSource;
@@ -6851,8 +6899,12 @@ schematic = (function () {
   ISource.prototype.constructor = ISource;
   ISource.prototype.randomize = function() {
     let min = 0.5 , max = 25 ;
-    this.val = (Math.random() * (max -min + 1) + min );
-      this.properties['value'] = 'dc('+this.val+")";
+    let val = (Math.random() * (max -min + 1) + min );
+      this.properties['value'] = 'dc('+val+")";
+  }
+
+  ISource.prototype.get_value = function(){
+    return Number(this.properties['value'].substring(3,this.properties['value'].length-1));
   }
 
   ISource.prototype.toString = Source.prototype.toString;
@@ -6955,19 +7007,46 @@ schematic = (function () {
           part.add(this);
       */var part = new Part(this);
       var pm = parts_map[type];
-      part.set_component(new pm[0](0, 0,0, 0), "naaah");
+      part.set_component(new pm[0](0, 0,0, 0),"");
       part.component.is_const= true ;
+
       for (var name in properties)
             part.component.properties[name] = properties[name];
-
+      part.tip =parts_map[type][1] + ' : '+part.component.properties['name']+' : '+ part.component.get_value() ;
+      console.log(part.component);
       //part.component.properties= properties;
       this.parts_bin.push(part);
-
-
+      if ( this.custom_table)
+      {
+     // console.log(this.custom_table);
+      td = document.createElement('td');
+      this.custom_table.appendChild(td);
+        //tr.appendChild(td);
+        td.appendChild(part.canvas);
+      }
     }
 
 
   }
+
+  Schematic.prototype.redraw_custom_parts = function ()
+  {
+    if (! this.custom_table) return ;
+    while (this.custom_table.firstChild) {
+    this.custom_table.removeChild(this.custom_table.firstChild);
+    }
+    for ( c of this.parts_bin )
+    {
+      if(c.component.is_const)
+      {
+        td = document.createElement('td');
+      this.custom_table.appendChild(td);
+        //tr.appendChild(td);
+        td.appendChild(c.canvas);
+      }
+    }
+  }
+
   Schematic.prototype.extract_vars = function (expression)
   {
     //let math = require('mathjs');
@@ -7045,6 +7124,17 @@ schematic = (function () {
     return comps ;
   }
 
+  Schematic.prototype.remove_parts= function ()
+  {
+    for ( i in this.parts_bin)
+    { c = this.parts_bin[i];
+      if (c.component.is_const && c.selected)
+        this.parts_bin.splice(i);
+
+        console.log(c) ;
+    }
+    this.redraw_custom_parts();
+  }
   var module = {
     'Schematic': Schematic,
     'component_slider': component_slider
