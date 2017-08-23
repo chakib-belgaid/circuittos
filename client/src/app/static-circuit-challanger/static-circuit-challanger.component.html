@@ -1,3 +1,13 @@
 <p>
   static-circuit-challanger works!
 </p>
+
+<div #circuit width="1000" height="400" ></div>
+<button (click)="add_operator('+')" >+</button>
+<button (click)="add_operator('-')" >-</button>
+<button (click)="add_operator('*')" >*</button>
+<button (click)="add_operator('/')" >/</button>
+<button (click)="remove_operator()" >'<-'</button>
+<button (click)="calculate()">calculate</button>
+<p>{{ equation }}</p>
+

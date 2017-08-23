@@ -22,7 +22,7 @@
         "styles.css","circuit-sandbox/font-awesome-4.6.3/css/font-awesome.min.css"
       ],
       "scripts": ["circuit-sandbox/js/hammer.min.js","circuit-sandbox/js/download.js",
-        "circuit-sandbox/js/en-US.js","circuit-sandbox/js/schematic.js"],
+        "circuit-sandbox/js/en-US.js","circuit-sandbox/js/schematic.js","circuit-sandbox/js/math.js"],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

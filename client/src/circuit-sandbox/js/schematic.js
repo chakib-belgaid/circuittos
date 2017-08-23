@@ -2151,6 +2151,7 @@ schematic = (function () {
 
     /* this is the part of functions */
     this.on_click_component = function (t) {};
+    this.on_double_click_component = function(t){};
 
     // list of the parts object
     /*
@@ -2916,7 +2917,7 @@ schematic = (function () {
           var type = c[0];
           var coords = c[1];
           var properties = c[2];
-          console.log(c);
+          //console.log(c);
           if (c.length < 5)
             c.push(true);
           var part = new parts_map[type][0](coords[0], coords[1], coords[2]);
@@ -3141,10 +3142,12 @@ schematic = (function () {
     this.redraw_background();
 
     var ckt = this.extract_circuit();
+
     if (ckt === null) return;
 
     // run the analysis
     this.operating_point = ckt.dc();
+    console.log(this.operating_point);
 
     if (this.operating_point != undefined) {
       // save a copy of the results for submission
@@ -3152,7 +3155,7 @@ schematic = (function () {
       for (var i in this.operating_point) this.dc_results[i] = this.operating_point[i];
 
       // display results on diagram
-      this.redraw();
+     // this.redraw();
     }
   }
 
@@ -3976,7 +3979,7 @@ schematic = (function () {
             if (sch.components[i].select(x, y, event.shiftKey)) {
               if (sch.components[i].selected) {
                   //console.log(sch.components[i]);
-                console.log("nothng");
+                //console.log("nothng");
                 ///TODO here we can get the selected item
                 sch.on_click_component(sch.components[i]);
                 sch.drag_begin();
@@ -4136,7 +4139,7 @@ schematic = (function () {
 
 
   function schematic_double_click(event) {
-    console.log("double clicked");
+
     if (!event) event = window.event;
     else event.preventDefault();
     var sch = event.target.schematic;
@@ -4147,12 +4150,14 @@ schematic = (function () {
     var y = sch.canvas.mouse_y / sch.scale + sch.origin_y;
     sch.cursor_x = Math.round(x / sch.grid) * sch.grid;
     sch.cursor_y = Math.round(y / sch.grid) * sch.grid;
-    if (sch.is_question) {
+    if (sch.is_static && !sch.allow_edits) {
       var which = -1;
       for (var i = sch.components.length - 1; i >= 0; --i)
         if (sch.components[i].select(x, y, false)) {
           if (sch.components[i].selected) {
-            is_question_double_click(sch.components[i]);
+            //is_question_double_click(sch.components[i]);
+           // console.log(sch);
+           sch.on_double_click_component(sch.components[i].properties['name']);
             ///TODO a tooltip to display the element name
             which = i;  // keep track of component we found
 
@@ -5377,6 +5382,8 @@ schematic = (function () {
 
   }
 
+  Component.prototype.randomize = function(){}
+
   Component.prototype.json = function (index) {
     this.properties['_json_'] = index; // remember where we are in the JSON list
 
@@ -5448,6 +5455,7 @@ schematic = (function () {
   Component.prototype.add = function (sch) {
     this.sch = sch;   // we now belong to a schematic!
     sch.add_component(this);
+
     this.update_coords();
   }
 
@@ -5615,6 +5623,8 @@ schematic = (function () {
   }
 
   Component.prototype.edit_properties = function (x, y) {
+    if ( this.sch.is_static && !this.sch.allow_edits)
+      return ;
     if (this.near(x, y) && ! this.is_const ) {
       // make an <input> widget for each property
       var fields = [];
@@ -5964,7 +5974,7 @@ schematic = (function () {
 
   function Label(x, y, rotation, label,is_const) {
     Component.call(this, 'L', x, y, rotation);
-    this.properties['label'] = label ? label : '???';
+    this.properties['name'] = label ? label : '???';
     this.is_const=is_const;
     this.add_connection(0, 0);
     this.bounding_box = [-2, 0, 2, 8];
@@ -5981,17 +5991,17 @@ schematic = (function () {
   Label.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 8);
-    this.draw_text(c, this.properties['label'], 0, 9, 1, property_size);
+    this.draw_text(c, this.properties['name'], 0, 9, 1, property_size);
   }
 
   Label.prototype.clone = function (x, y) {
-    return new Label(x, y, this.rotation, this.properties['label'],this.is_const);
+    return new Label(x, y, this.rotation, this.properties['name'],this.is_const);
   }
 
   // give components a chance to generate a label for their connection(s)
   // default action: do nothing
   Label.prototype.add_default_labels = function () {
-    this.connections[0].propagate_label(this.properties['label']);
+    this.connections[0].propagate_label(this.properties['name']);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6889,6 +6899,24 @@ schematic = (function () {
     while(s = re.exec(expression))
       vars.push(s[1]);
       return vars ;
+  }
+
+  Schematic.prototype.get_component = function(name)
+  { console.log(Math.random());
+    for ( c in this.components)
+    { //console.log(this.components[c]);
+      if( this.components[c].properties['name']=== name)
+        return this.components[c] ;
+    }
+  }
+
+  Schematic.prototype.randomize = function()
+  {
+    for( c in this.components)
+    { let d = this.components[c];
+      // console.log(d instanceof Resistor );
+      d.randomize();
+    }
   }
 
   var module = {

@@ -23,10 +23,12 @@ export class CircuitsService {
       .catch(reason => console.log(reason));
   }
 
-  /*getCircuit(num): Promise<Circuit>{
+  getCircuit(num): Promise<any>{
     return this.http.get(this.CircuitUrl+num+'/')
-      .toPromise(response =>{return response.json() as Circuit })
-  }*/
+      .toPromise()
+      .then(response =>{return response.json() })
+      .catch(reason => console.log(reason));
+  }
 
 
 }

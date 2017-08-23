@@ -9,6 +9,18 @@ import { CircuitComponent } from './circuit/circuit.component';
 import { StaticCircuitDesignerComponent } from './static-circuit-designer/static-circuit-designer.component';
 import {CircuitsService} from './circuits.service';
 import { StaticCircuitChallangerComponent } from './static-circuit-challanger/static-circuit-challanger.component';
+import {RouterModule, Routes} from '@angular/router';
+
+const route: Routes = [
+  {path : 'designer' ,
+component: StaticCircuitDesignerComponent
+  }
+  ,
+  {
+    path : 'challanger/:id' ,
+    component : StaticCircuitChallangerComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -20,6 +32,9 @@ import { StaticCircuitChallangerComponent } from './static-circuit-challanger/st
   ],
   imports: [
     BrowserModule, HttpModule,
+    RouterModule.forRoot(
+      route
+    )
   ],
   providers: [
     {provide : StoresService1 ,
