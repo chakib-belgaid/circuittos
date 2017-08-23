@@ -7,7 +7,11 @@
 <button (click)="add_operator('-')" >-</button>
 <button (click)="add_operator('*')" >*</button>
 <button (click)="add_operator('/')" >/</button>
-<button (click)="remove_operator()" >'<-'</button>
+<button (click)="add_operator('para(')" >//</button>
+<button (click)="add_operator('(')" >(</button>
+<button (click)="add_operator(')')" >)</button>
+
+<button (click)="remove_operator()" ><-</button>
 <button (click)="calculate()">calculate</button>
 <p>{{ equation }}</p>
 

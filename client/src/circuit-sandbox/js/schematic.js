@@ -302,7 +302,6 @@ var cktsim = (function () {
 
     // find the operating point
     var iterations = this.find_solution(load_dc, dc_max_iters);
-
     if (typeof iterations == 'undefined') {
       // too many iterations
       if (this.current_sources.length > 0) {
@@ -6218,8 +6217,11 @@ schematic = (function () {
   Resistor.prototype = new Component();
   Resistor.prototype.constructor = Resistor;
   Resistor.prototype.randomize = function() {
-    let min = 1 , max = 5320.4 ;
-    this.val = this.properties['r'] = (Math.random() * (max -min + 1) + min )+"";
+    let min = 1 , max = 5320.4e3 ;
+      this.val = (Math.random() * (max -min + 1) + min );
+   this.properties['r'] = this.val+"";
+
+    //this.val = this.properties['r'] = (Math.random() * (max -min + 1) + min )+"";
   }
 
   Resistor.prototype.toString = function () {
@@ -6272,8 +6274,11 @@ schematic = (function () {
   }
 
    Capacitor.prototype.randomize = function() {
-    let min = 1 , max = 5320.4*1000 ;
-    this.val = this.properties['c'] = (Math.random() * (max -min + 1) + min)+"p";
+    let min = 1e-12 , max = 5320.4e-6 ;
+      this.val = (Math.random() * (max -min + 1) + min );
+   this.properties['c'] = this.val+"";
+
+ //   this.val = this.properties['c'] = (Math.random() * (max -min + 1) + min)+"p";
   }
 
 
@@ -6318,8 +6323,11 @@ schematic = (function () {
   }
 
     Inductor.prototype.randomize = function() {
-    let min = 1 , max = 5320.4 *1000;
-    this.val = this.properties['l'] = (Math.random() * (max -min + 1) + min )+"n";
+    let min = 1e-9  , max = 5320.4e-6;
+    this.val = (Math.random() * (max -min + 1) + min );
+    this.properties['l'] = this.val+"";
+
+ //   this.val = this.properties['l'] = (Math.random() * (max -min + 1) + min )+"n";
   }
 
 
@@ -6372,7 +6380,8 @@ schematic = (function () {
 
   Diode.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-    this.val = this.properties['area'] = (Math.random() * (max -min + 1) + min )+"";
+      this.val = (Math.random() * (max -min + 1) + min );
+   this.properties['area'] = this.val+"";
 
   }
 
@@ -6453,7 +6462,8 @@ schematic = (function () {
 
   NFet.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-    this.val = this.properties['WL'] = (Math.random() * (max -min + 1) + min )+"";
+    this.val=  (Math.random() * (max -min + 1) + min );
+    this.properties['WL'] = this.val+"";
   }
 
   NFet.prototype.draw = function (c) {
@@ -6502,7 +6512,8 @@ schematic = (function () {
 
   PFet.prototype.randomize = function() {
     let min = 1 , max = 100 ;
-   this.val =  this.properties['WL'] = (Math.random() * (max -min + 1) + min )+"";
+   this.val = (Math.random() * (max -min + 1) + min );
+   this.properties['WL'] = this.val+"";
   }
 
   PFet.prototype.toString = function () {
@@ -6957,7 +6968,7 @@ schematic = (function () {
   Schematic.prototype.extract_vars = function (expression)
   {
     //let math = require('mathjs');
-    let re = /([A-Za-z]\d*)+/g;
+    let re = /([A-Za-z]+\d*)/g;
     let vars = [];
     while(s = re.exec(expression))
       vars.push(s[1]);
@@ -6980,6 +6991,34 @@ schematic = (function () {
       // console.log(d instanceof Resistor );
       d.randomize();
     }
+  }
+  Schematic.prototype.parallel = function (expression)
+  {  let exp= expression;
+    let re=/((?:[A-Za-z]+\d*)|(?:\(.+\)))\/\/((?:[A-Za-z]+\d*)|(?:\(.+\)))/gy;
+        let t=''
+     while(t != exp) {
+       t = exp;
+
+       exp = exp.replace(re, '(($1*$2)/($1+$2))');
+
+       console.log(exp) ;
+        }
+    return t;
+  }
+
+  get_closed_par = function(s,start)
+  { d=-1;
+    for ( i =start+1 ; i< s.length;i++)
+    {
+      if (s[i]==')')
+        d++ ;
+      if ( s[i] =='(')
+        d-- ;
+      if ( d== 0 )
+        return i;
+    }
+
+
   }
 
   var module = {

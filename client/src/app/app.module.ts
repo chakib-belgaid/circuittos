@@ -12,7 +12,7 @@ import { StaticCircuitChallangerComponent } from './static-circuit-challanger/st
 import {RouterModule, Routes} from '@angular/router';
 
 const route: Routes = [
-  {path : 'designer' ,
+  {path : 'designer/:id' ,
 component: StaticCircuitDesignerComponent
   }
   ,
@@ -20,6 +20,10 @@ component: StaticCircuitDesignerComponent
     path : 'challanger/:id' ,
     component : StaticCircuitChallangerComponent
   }
+  , {path : 'designer' ,
+component: StaticCircuitDesignerComponent
+  }
+
 ];
 
 @NgModule({

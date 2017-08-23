@@ -15,8 +15,10 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 export class StaticCircuitChallangerComponent implements OnInit {
 @ViewChild('circuit') input ;
 circuit: any ;
-equation= '';
-pile_equation = [];
+//equation= 'v/(R1//(R2+(R3//R4)))';
+//equation = '(R1//(R2+R3))';
+equation = 'v/(para(R1,(R2+para(R3,R4))))';
+  pile_equation = [];
 lvl :string;
   constructor(private circuitService: CircuitsService
   ,private route: ActivatedRoute,
@@ -34,6 +36,11 @@ lvl :string;
       this.route.paramMap.subscribe((params: ParamMap) =>{
           this.lvl = params.get('id');
       });
+      math.import({
+      para: this.para,
+
+      });
+
     var comp = this;
 
 
@@ -67,17 +74,27 @@ lvl :string;
     this.equation = this.pile_equation.pop();
   }
 
+ para(a: any, b: any) {
+
+   return (a*b)/(a+b) ;
+
+}
+
   calculate() {
-    let operators = this.circuit.extract_vars(this.equation);// to remove v=
+    let operators = this.circuit.extract_vars(this.equation);//
+    let equation = this.circuit.parallel(this.equation);// to remove v=
     this.circuit.randomize();
     let  ops:{[id:string ] : string} = {};
     for(let i of operators )
-    { let x = this.circuit.get_component(i);
-    console.log(x.properties.indexOf(1),x);
 
+    { let x = this.circuit.get_component(i);
+    //console.log(x.properties.indexOf(1),x);
+      if(x)
       ops[i] = x.val;
 
+
     }
+    console.log(math.eval('para(1,1)'));
     console.log(ops);
     /*let ops = this.fill_randome(operators);
     //let ops =this.circuit.dc_analysis();
@@ -87,10 +104,10 @@ lvl :string;
       x.properties[1]= ops[op] ;
     }
     */
-    let x = math.eval(this.equation,ops);
+     let x = math.eval(equation,ops);
     this.circuit.dc_analysis();
-    let y = this.circuit.dc_results['v3'];
-    console.log(x,y);
+    let y = this.circuit.dc_results['I(v)'];
+    console.log(x+y);
 
   }
   fill_randome(operators ){

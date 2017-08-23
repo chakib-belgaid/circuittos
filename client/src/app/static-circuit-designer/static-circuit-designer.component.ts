@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CircuitsService} from "../circuits.service";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 
 
 @Component({
@@ -11,7 +12,8 @@ export class StaticCircuitDesignerComponent implements OnInit {
 @ViewChild('circuit') input ;
 circuit: any ;
 constructor(
-  private circuitService : CircuitsService ) {}
+  private circuitService : CircuitsService ,
+ private route: ActivatedRoute, ) {}
 
   ngOnInit() {
       this.circuit = new schematic.Schematic(this.input.nativeElement);
@@ -20,6 +22,19 @@ constructor(
       this.circuit.is_static = true ;
       this.circuit.analyses.push('dc','ac','tran');
       this.circuit.update_schematic1();
+       this.route.paramMap.subscribe((params: ParamMap) =>{
+       let x =  params.get('id');
+       if(x)
+       {
+        this.circuitService.getCircuit(x ).then(value => {
+       const level = value.circuit;
+      // console.log(value);
+          //his.circuit.update_schematic1();
+           this.circuit.load_schematic(level) ;
+
+     });
+}
+      });
       //this.circuit.extract_vars('R1*R2-R3+5i/c2');
   }
 
