@@ -17,7 +17,7 @@ circuit: any ;
  ngOnInit() {
       this.circuit = new schematic.Schematic(this.input.nativeElement);
       this.circuit.allow_edits = true ;
-      this.circuit.parts= ['L','g','r','v','i','c','l','a','s','n'];
+      this.circuit.parts= ['t','L','g','r','v','i','c','l','a','s','n'];
       //this.circuit.is_static = true ;
       this.circuit.analyses.push('dc','ac','tran');
       this.circuit.update_schematic1();

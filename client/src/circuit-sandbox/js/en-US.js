@@ -2,6 +2,7 @@ var i18n = {
 error1: 'Sorry, there a browser error in starting the schematic tool.  We recommend using the latest versions of Firefox and Chrome.',
 Ground_connection: 'Ground connection',
 Node_label: 'Node label',
+  Custom_Label: 'Custom label',
 Voltage_source: 'Voltage source',
 Current_source: 'Current source',
 Resistor: 'Resistor',
@@ -36,7 +37,7 @@ Sharable_Link: 'Sharable link',
 
 points_per_decade: 'Number of points/decade',
 Starting_frequency: 'Starting frequency (Hz)',
-Ending_frequency: 'Ending frequency (Hz)',	
+Ending_frequency: 'Ending frequency (Hz)',
 source_for_ac: 'Name of V or I source for ac',
 AC_Analysis_add_a_voltage_probe: 'AC Analysis: add a voltage probe to the diagram!',
 AC_Analysis: 'AC Analysis',
@@ -54,14 +55,14 @@ ckt_alert4: 'Newton Method failed, do your current sources have a conductive pat
 ckt_alert5: 'Newton Method failed, it may be your circuit or it may be our simulator.',
 ckt_alert6: 'DC failed, trying transient analysis from zero.',
 ckt_alert7: 'AC analysis refers to unknown source ',
-ckt_alert8: 'AC analysis failed, unknown source',	
+ckt_alert8: 'AC analysis failed, unknown source',
 
 ckt_error1: 'Rows of M mismatched to b or cols mismatch to x.',
 ckt_error2: 'Row or columns of A too large for B',
 ckt_error3: 'Row or columns of A too large for C',
 ckt_error4: 'scalea and scaleb must be scalars or Arrays',
 ckt_error5: 'Rows or cols > rows or cols of dest',
-ckt_error6: 'Rows or cols > cols or rows of dest',	    	    
+ckt_error6: 'Rows or cols > cols or rows of dest',
 
 log_Frequency: 'log(Frequency in Hz)',
 degrees: 'degrees',
@@ -73,7 +74,7 @@ Stop_time_seconds: 'Stop time (seconds)',
 tstop_lbl: 'stop time',
 Transient_Analysis_add_a_probe: 'Transient Analysis: add a probe to the diagram!',
 
-//Use creating phrasing to get this right: 
+//Use creating phrasing to get this right:
 // alert('The ' + color + ' probe is connected to node ' + '"' + label + '"' + ' which is not an actual circuit node');
 The: 'The ',
 probe_is_connected_to_node: ' probe is connected to node ',
@@ -123,6 +124,7 @@ Circuit_Sandbox_Help: 'CIRCUIT SANDBOX HELP',
 name: 'Name',
 value: 'Value',
 label: 'Label',
+  clabel:'CLabel',
 r: 'R',
 c: 'C',
 l: 'L',
@@ -155,7 +157,7 @@ xaxis: 'x axis',
 last_line: 'last line, no comma'
 };
 
-var strSHelp = "CIRCUIT SANDBOX HELP\n\n";		//embedded Help 
+var strSHelp = "CIRCUIT SANDBOX HELP\n\n";		//embedded Help
 var strAddC = "Add component: Tap on a part in the parts bin, then tap on the schematic to add.\n\n";
 var strAddW = "Add wire: Wires start at connection points (open circles). Touch on a connection to start a wire, drag, and release.\n\n";
 var strSel  = "Select: Drag a rectangle to select components. \n(desktop:) Shift-click to include another component.\n\n";

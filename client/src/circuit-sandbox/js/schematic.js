@@ -2108,7 +2108,8 @@ schematic = (function () {
     'n': [NFet, i18n.NFet],
     'p': [PFet, i18n.PFet],
     's': [Probe, i18n.Voltage_probe],
-    'a': [Ammeter, i18n.Current_probe]
+    'a': [Ammeter, i18n.Current_probe],
+    't': [CLabel , i18n.Custom_Label]
   };
 
   // global clipboard
@@ -6018,6 +6019,47 @@ schematic = (function () {
   Label.prototype.add_default_labels = function () {
     this.connections[0].propagate_label(this.properties['name']);
   }
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //
+  //  CLabel custom label
+  //
+  ////////////////////////////////////////////////////////////////////////////////
+
+  function CLabel(x, y, rotation, label,is_const) {
+    Component.call(this, 't', x, y, rotation);
+    this.properties['name'] = label ? label : '---';
+    this.is_const=is_const;
+    //this.add_connection(0, 0);
+    this.bounding_box = [-2, 0, 2, 8];
+    this.update_coords();
+  }
+
+  CLabel.prototype = new Component();
+  CLabel.prototype.constructor = CLabel;
+
+  CLabel.prototype.toString = function () {
+    return '<CLabel' + ' (' + this.x + ',' + this.y + ')>';
+  }
+
+  CLabel.prototype.draw = function (c) {
+    Component.prototype.draw.call(this, c);   // give superclass a shot
+    //this.draw_line(c, -8, 0, 8 , 0);
+    this.draw_circle(c,0,0,8,probe_colors.green);
+    this.draw_text(c, this.properties['name'], 0, 9, 1, property_size);
+  }
+
+  CLabel.prototype.clone = function (x, y) {
+    return new CLabel(x, y, this.rotation, this.properties['name'],this.is_const);
+  }
+
+  // give components a chance to generate a label for their connection(s)
+  // default action: do nothing
+  /*CLabel.prototype.add_default_labels = function () {
+    this.connections[0].propagate_label(this.properties['name']);
+  }*/
+
 
   ////////////////////////////////////////////////////////////////////////////////
   //
