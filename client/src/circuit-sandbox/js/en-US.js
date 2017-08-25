@@ -144,6 +144,7 @@ step: 'step',
 square: 'square',
 triangle: 'triangle',
 pulse: 'pulse',
+  vales: 'value',
 
 red: 'red',
 green: 'green',

@@ -5659,6 +5659,7 @@ schematic = (function () {
             fields[i] = build_input('text', 10, this.properties[i]);
         }
       }
+      console.log(fields);
       var content = build_table(fields);
       content.fields = fields;
       content.component = this;
@@ -5667,6 +5668,7 @@ schematic = (function () {
         for (var i in content.fields)
           content.component.properties[i] = content.fields[i].value;
         content.component.sch.redraw_background();
+        console.log(content);
       });
       return true;
     } else return false;
@@ -6029,9 +6031,10 @@ schematic = (function () {
 
   function CLabel(x, y, rotation, label,is_const) {
     Component.call(this, 't', x, y, rotation);
-    this.properties['name'] = label ? label : '---';
+    this.properties['name'] = label ? label : 'lab';
+    this.properties['vales'] = '0';
     this.is_const=is_const;
-    //this.add_connection(0, 0);
+    this.add_connection(0, 0);
     this.bounding_box = [-2, 0, 2, 8];
     this.update_coords();
   }
@@ -6045,9 +6048,11 @@ schematic = (function () {
 
   CLabel.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
-    //this.draw_line(c, -8, 0, 8 , 0);
-    this.draw_circle(c,0,0,8,probe_colors.green);
-    this.draw_text(c, this.properties['name'], 0, 9, 1, property_size);
+    this.draw_line(c, 0, 0, 0, 0);
+    this.draw_circle(c, 0, 0, 2, probe_colors.green);
+    this.draw_text(c, this.properties['name'], -10, 0, 1, property_size);
+    this.draw_text(c, this.properties['vales'], 10, 0, 1, property_size);
+
   }
 
   CLabel.prototype.clone = function (x, y) {
@@ -6056,9 +6061,9 @@ schematic = (function () {
 
   // give components a chance to generate a label for their connection(s)
   // default action: do nothing
-  /*CLabel.prototype.add_default_labels = function () {
+  CLabel.prototype.add_default_labels = function () {
     this.connections[0].propagate_label(this.properties['name']);
-  }*/
+  }
 
 
   ////////////////////////////////////////////////////////////////////////////////
