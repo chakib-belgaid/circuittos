@@ -25,7 +25,7 @@ circuit: any ;
        let x =  params.get('id');
        if(x)
        {
-        this.circuitService.getCircuit(x ).then(value => {
+         this.circuitService.load_staticlevel(x).then(value => {
        const level = value.circuit;
       // console.log(value);
           //his.circuit.update_schematic1();
@@ -39,13 +39,13 @@ circuit: any ;
 
   save_circuit() {
     let schema = this.circuit.json();
-    this.circuitService.save_circuit({circuit:JSON.stringify(schema)});
+    this.circuitService.save_staticlevel({circuit: JSON.stringify(schema)});
 
   }
 
   add_component() {
     this.circuit.custom_table = this.my_table.nativeElement;
-    //console.log(this.my_table) ;
+    console.log(this.my_table);
     let d = this.circuit.save_components();
     this.circuit.load_custom_tools(d);
     //this.circuit.update_schematic1() ;
@@ -56,6 +56,16 @@ circuit: any ;
   }
 
   save_level() {
+
+    let parts = this.circuit.get_customparts();
+    let labels = this.circuit.get_labels();
+    let schema = this.circuit.json();
+    let lvl = {
+      circuit: JSON.stringify(schema),
+      labels: JSON.stringify(labels),
+      parts: JSON.stringify(parts)
+    }
+    this.circuitService.save_guidedlevel(lvl);
 
   }
 }

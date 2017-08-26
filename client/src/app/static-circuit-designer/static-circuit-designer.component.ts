@@ -26,7 +26,7 @@ constructor(
        let x =  params.get('id');
        if(x)
        {
-        this.circuitService.getCircuit(x ).then(value => {
+         this.circuitService.load_staticlevel(x).then(value => {
        const level = value.circuit;
       // console.log(value);
           //his.circuit.update_schematic1();
@@ -40,7 +40,7 @@ constructor(
 
   save_circuit() {
     let schema = this.circuit.json();
-    this.circuitService.save_circuit({circuit:JSON.stringify(schema)});
+    this.circuitService.save_staticlevel({circuit: JSON.stringify(schema)});
 
   }
 }

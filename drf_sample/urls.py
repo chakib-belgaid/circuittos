@@ -16,14 +16,16 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
+
+from levels.views import LevelsViewSet, GuidedLevelsViewSet
 from retail.views import ChainViewSet, StoreViewSet, EmployeeViewSet
-from levels.views import  LevelsViewSet
 
 router = DefaultRouter()
 router.register(prefix='chains', viewset=ChainViewSet)
 router.register(prefix='stores', viewset=StoreViewSet)
 router.register(prefix='employees', viewset=EmployeeViewSet)
 router.register(prefix ='level',viewset=LevelsViewSet)
+router.register(prefix='guidedlevel', viewset=GuidedLevelsViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 

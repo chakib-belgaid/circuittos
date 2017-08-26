@@ -5668,7 +5668,6 @@ schematic = (function () {
         for (var i in content.fields)
           content.component.properties[i] = content.fields[i].value;
         content.component.sch.redraw_background();
-        console.log(content);
       });
       return true;
     } else return false;
@@ -7170,6 +7169,38 @@ Diode.prototype.get_value = function(){
     }
     return comps ;
   }
+
+
+  Schematic.prototype.get_customparts = function () {
+    //[["r" ,{"name":"rito","r":"1.5"}]]
+    comps = [];
+    for (d of this.parts_bin) { //console.log(d);
+      let c = d.component;
+      if (c.is_const) {
+
+        let x = [c.type + ""];
+        let y = {};
+        for (j in c.properties) {
+          y[j + ""] = c.properties[j] + "";
+        }
+        x.push(y);
+        comps.push(x);
+      }
+    }
+    return comps;
+  }
+
+  Schematic.prototype.get_labels = function () {
+    comps = [];
+    let l;
+    for (c of this.components) {  //console.log(c);
+      if (c.constructor == CLabel)
+        l = [c.properties['name'], c.properties['vales']];
+      comps.push(l);
+    }
+    return comps;
+  }
+
 
   Schematic.prototype.remove_parts= function ()
   {
