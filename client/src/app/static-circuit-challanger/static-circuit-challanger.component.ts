@@ -15,7 +15,7 @@ export class StaticCircuitChallangerComponent implements OnInit {
 circuit: any ;
 //equation= 'v/(R1//(R2+(R3//R4)))';
 //equation = '(R1//(R2+R3))';
-equation = 'v/(para(R1,(R2+para(R3,R4))))';
+  equation = '';// 'v/(para(R1,(R2+para(R3,R4))))';
   pile_equation = [];
 lvl :string;
   constructor(private circuitService: CircuitsService
@@ -92,8 +92,7 @@ lvl :string;
 
 
     }
-    console.log(math.eval('para(1,1)'));
-    console.log(ops);
+
     /*let ops = this.fill_randome(operators);
     //let ops =this.circuit.dc_analysis();
     for( let op in ops)

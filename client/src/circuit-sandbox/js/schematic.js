@@ -2309,7 +2309,7 @@ schematic = (function () {
     }
 
     this.canvas.schematic = this;
-    if (this.allow_edits) {
+    if (this.allow_edits || true) {
       this.canvas.addEventListener('mousemove', function (event) {
         if (!event) event = window.event;
         var sch = event.target.schematic;
@@ -2667,6 +2667,7 @@ schematic = (function () {
 
   Schematic.prototype.drag_begin = function () {
     // let components know they're about to move
+
     for (var i = this.components.length - 1; i >= 0; --i) {
       var component = this.components[i];
       if (component.selected) component.move_begin();
@@ -3987,7 +3988,7 @@ schematic = (function () {
           for (var i = sch.components.length - 1; i >= 0; --i)
             if (sch.components[i].select(x, y, event.shiftKey)) {
               if (sch.components[i].selected) {
-                  //console.log(sch.components[i]);
+                // console.log(sch.components[i]);
                 //console.log("nothng");
                 ///TODO here we can get the selected item
                 sch.on_click_component(sch.components[i]);
@@ -4165,7 +4166,7 @@ schematic = (function () {
         if (sch.components[i].select(x, y, false)) {
           if (sch.components[i].selected) {
             //is_question_double_click(sch.components[i]);
-           // console.log(sch);
+            console.log(sch);
            sch.on_double_click_component(sch.components[i].properties['name']);
             ///TODO a tooltip to display the element name
             which = i;  // keep track of component we found
@@ -5310,7 +5311,7 @@ schematic = (function () {
   function part_mouse_down(event) {
     if (!event) event = window.event;
     var part = event.target.part;
-    console.log(part);
+    //console.log(part);
     part.select(true);
     for(c of part.sch.parts_bin)
     { if (c != part)
@@ -7040,6 +7041,7 @@ Diode.prototype.get_value = function(){
   Schematic.prototype.load_custom_tools = function (custom_parts)
   {
     this.custom_parts=custom_parts ;
+    console.log(this.custom_parts.length);
     for (var i = 0; i < this.custom_parts.length; i++) {
         c = this.custom_parts[i];
           var type = c[0]
@@ -7194,9 +7196,11 @@ Diode.prototype.get_value = function(){
     comps = [];
     let l;
     for (c of this.components) {  //console.log(c);
-      if (c.constructor == CLabel)
+      if (c.constructor == CLabel) {
         l = [c.properties['name'], c.properties['vales']];
-      comps.push(l);
+        comps.push(l);
+
+      }
     }
     return comps;
   }
