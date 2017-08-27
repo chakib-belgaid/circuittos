@@ -12,29 +12,44 @@ import {StaticCircuitChallangerComponent} from './static-circuit-challanger/stat
 import {RouterModule, Routes} from '@angular/router';
 import {GuidedCircuitDesignerComponent} from './guided-circuit-designer/guided-circuit-designer.component';
 import {GuidedCircuitChallengerComponent} from './guided-circuit-challenger/guided-circuit-challenger.component';
+import {AuthComponent} from './auth/auth.component';
+import {CallbackComponent} from './callback/callback.component';
+import {AuthService} from './auth.service';
 
 const route: Routes = [
-  {path : 'designer/:id' ,
-component: StaticCircuitDesignerComponent
+  {path: 'callback', component: CallbackComponent},
+  {
+    path: 'auth',
+    component: AuthComponent
   }
   ,
   {
-    path : 'challanger/:id' ,
-    component : StaticCircuitChallangerComponent
+    path: 'designer/:id',
+    component: StaticCircuitDesignerComponent
+  }
+  ,
+  {
+    path: 'challanger/:id',
+    component: StaticCircuitChallangerComponent
   },
   {
     path: 'challanger1/:id',
     component: GuidedCircuitChallengerComponent
   }
-  , {path : 'designer' ,
-component: StaticCircuitDesignerComponent
+  , {
+    path: 'designer',
+    component: StaticCircuitDesignerComponent
   }
-, {path : 'designer1/:id' ,
-component: GuidedCircuitDesignerComponent
+  , {
+    path: 'designer1/:id',
+    component: GuidedCircuitDesignerComponent
   }
-, {path : 'designer1' ,
-component: GuidedCircuitDesignerComponent
-  }
+  , {
+    path: 'designer1',
+    component: GuidedCircuitDesignerComponent
+  },
+  {path: '**', redirectTo: ''},
+
 
 ];
 
@@ -43,10 +58,12 @@ component: GuidedCircuitDesignerComponent
     AppComponent,
     StoresComponent,
     CircuitComponent,
+    AuthComponent,
     StaticCircuitDesignerComponent,
     StaticCircuitChallangerComponent,
     GuidedCircuitDesignerComponent,
     GuidedCircuitChallengerComponent,
+    CallbackComponent,
   ],
   imports: [
     BrowserModule, HttpModule,
@@ -55,13 +72,19 @@ component: GuidedCircuitDesignerComponent
     )
   ],
   providers: [
-    {provide : StoresService1 ,
+    {
+      provide: StoresService1,
       useClass: StoresService1,
 
     },
     {
-      provide: CircuitsService  ,
-      useClass: CircuitsService  ,
+      provide: CircuitsService,
+      useClass: CircuitsService,
+    }
+    ,
+    {
+      provide: AuthService,
+      useClass: AuthService,
     }
   ],
   bootstrap: [AppComponent]
