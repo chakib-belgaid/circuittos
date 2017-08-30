@@ -40,15 +40,15 @@ CORS_ALLOW_METHODS = (
 
 # Application definition
 
-AUTHENTICATION_BACKENDS = (
+"""AUTHENTICATION_BACKENDS = (
 
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
+)"""
 
-)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -58,13 +58,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    # 'django.contrib.auth',
+    # 'rest_framework_jwt',
+    # 'rest_framework_auth0',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
     'rest_framework',
-    'corsheaders',
+    #'corsheaders',
     'levels'
 ]
 SITE_ID = 2
@@ -130,8 +133,29 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+"""
+AUTH0 = {
+    'CLIENTS': {
+        'default': {
+            'AUTH0_CLIENT_ID': 'yabxQ64fp6xwlEzD81w6Cz15aKpRRUcd',  #make sure it's the same string that aud attribute in your payload provides
+            'AUTH0_CLIENT_SECRET': '-3pFVLYfM_l9CG7PDr2f1X6mZosuLt03-pDquK7aMouCjgFBcP39rqG8CFq9MDrm',
+            'CLIENT_SECRET_BASE64_ENCODED': True,
+        }
+    },
+    'AUTH0_ALGORITHM': 'HS256',  # default used in Auth0 apps
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',  # default prefix used by djangorestframework_jwt
+    'AUTHORIZATION_EXTENSION': False,  # default to False
+}
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_auth0.authentication.Auth0JSONWebTokenAuthentication',
+    ),
+}
+"""
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
