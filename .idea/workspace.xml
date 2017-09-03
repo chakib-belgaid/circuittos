@@ -1,14 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js" description="part.tip =part.component.properties['name']+':'+ p..." line="7061" />
-    <bookmark url="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js" description="this.draw_text(c, this.properties['name'], -10, 0,..." line="6052" />
+    <bookmark url="file://$PROJECT_DIR$/client/src/imports/js/schematic.js" description="part.tip =part.component.properties['name']+':'+ p..." line="7068" />
+    <bookmark url="file://$PROJECT_DIR$/client/src/imports/js/schematic.js" description="this.draw_line(c,-4,0, 4, 0);" line="6308" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d7815df-ffd1-4983-a9f6-e447b70babb6" name="Default" comment="a problem with dragiing items in guided level">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="2d7815df-ffd1-4983-a9f6-e447b70babb6" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/circuit-sandbox.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/_config.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/example.ntl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Copy_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Cut_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Ok_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Paste_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Question_sign_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/18px-Remove_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/200px-Ok_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/Align_justify_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/Green check.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/Icons for Circuit Sandbox.pptx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/Reorder_font_awesome.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/X black 18 x 18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/X black.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/X red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/green check ppt 18x13.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/green check ppt 24x18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid ppt 18x18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid ppt.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid thin ppt 18x18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid thin ppt.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/grid.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/make_icon_uri.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/rotate.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/rotate90.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/rotate90_18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/rotate90_18.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/icons/spacer.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/images/42image_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/images/42image_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/index-es.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/index-mobile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/admin.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/apps.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/migrations/0001_initial.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/migrations/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/models.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/serializers.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/tests.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/retail/views.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/HELP-US-OUT.txt" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/HELP-US-OUT.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/css/font-awesome.css" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/css/font-awesome.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/css/font-awesome.min.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/FontAwesome.otf" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/FontAwesome.otf" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/fontawesome-webfont.eot" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/fontawesome-webfont.svg" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/fontawesome-webfont.ttf" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/fontawesome-webfont.woff" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/animated.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/animated.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/bordered-pulled.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/bordered-pulled.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/core.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/core.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/fixed-width.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/fixed-width.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/font-awesome.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/font-awesome.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/icons.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/icons.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/larger.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/larger.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/list.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/list.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/mixins.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/mixins.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/path.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/path.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/rotated-flipped.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/rotated-flipped.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/screen-reader.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/screen-reader.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/stacked.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/stacked.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/less/variables.less" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/less/variables.less" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_animated.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_animated.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_bordered-pulled.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_bordered-pulled.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_core.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_core.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_fixed-width.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_fixed-width.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_icons.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_icons.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_larger.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_larger.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_list.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_list.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_mixins.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_mixins.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_path.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_path.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_rotated-flipped.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_rotated-flipped.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_screen-reader.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_screen-reader.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_stacked.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_stacked.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/_variables.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/_variables.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/font-awesome-4.6.3/scss/font-awesome.scss" afterPath="$PROJECT_DIR$/client/src/imports/font-awesome-4.6.3/scss/font-awesome.scss" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/download.js" afterPath="$PROJECT_DIR$/client/src/imports/js/download.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/en-US.js" afterPath="$PROJECT_DIR$/client/src/imports/js/en-US.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/es.js" afterPath="$PROJECT_DIR$/client/src/imports/js/es.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/hammer.js" afterPath="$PROJECT_DIR$/client/src/imports/js/hammer.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/hammer.min.js" afterPath="$PROJECT_DIR$/client/src/imports/js/hammer.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/hammer.min.map" afterPath="$PROJECT_DIR$/client/src/imports/js/hammer.min.map" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/math.js" afterPath="$PROJECT_DIR$/client/src/imports/js/math.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js" afterPath="$PROJECT_DIR$/client/src/imports/js/schematic.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/package.json" afterPath="$PROJECT_DIR$/client/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/.angular-cli.json" afterPath="$PROJECT_DIR$/client/.angular-cli.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drf_sample/settings.py" afterPath="$PROJECT_DIR$/drf_sample/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drf_sample/urls.py" afterPath="$PROJECT_DIR$/drf_sample/urls.py" />
     </list>
@@ -40,6 +137,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="schematic.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/src/imports/js/schematic.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="6312" column="34" lean-forward="false" selection-start-line="6312" selection-start-column="34" selection-end-line="6312" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="auth.service.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/app/auth.service.ts">
           <provider selected="true" editor-type-id="text-editor">
@@ -62,11 +169,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drf_sample/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="163" column="17" lean-forward="true" selection-start-line="163" selection-start-column="17" selection-end-line="163" selection-end-column="17" />
+            <state relative-caret-position="1320">
+              <caret line="66" column="43" lean-forward="false" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -75,8 +182,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drf_sample/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="460">
+              <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -114,9 +221,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Part</find>
-      <find>part_mouse_down</find>
-      <find>mousedown</find>
       <find>save_components</find>
       <find>Label.</find>
       <find>call</find>
@@ -144,6 +248,9 @@
       <find>mouse_enter</find>
       <find>AUTHENTICATION_BACKENDS</find>
       <find>Rest_fra</find>
+      <find>circuit-sandbox</find>
+      <find>social</find>
+      <find>draw_recta</find>
     </findStrings>
     <replaceStrings>
       <replace>this.parts</replace>
@@ -151,6 +258,7 @@
       <replace>this.level</replace>
       <replace>let val = (Math.random() * (max -min + 1) + min );</replace>
       <replace>return Number(this.properties['value'].substring(3,this.properties['value'].length-1));</replace>
+      <replace>imports</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -167,7 +275,7 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/client/src/imports/js/schematic.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/client/src/app/circuit/circuit.component.ts" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/client/src/app/guided-circuit-challenger/guided-circuit-challenger.component.ts" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/client/src/app/guided-circuit-designer/guided-circuit-designer.component.ts" root0="SKIP_INSPECTION" />
@@ -200,7 +308,6 @@
         <option value="$PROJECT_DIR$/client/src/app/circuit.ts" />
         <option value="$PROJECT_DIR$/client/src/circuit-sandbox/js/math.js" />
         <option value="$PROJECT_DIR$/client/src/app/static-circuit-designer/static-circuit-designer.component.html" />
-        <option value="$PROJECT_DIR$/client/.angular-cli.json" />
         <option value="$PROJECT_DIR$/client/src/app/app.component.html" />
         <option value="$PROJECT_DIR$/client/src/app/static-circuit-challanger/static-circuit-challanger.component.html" />
         <option value="$PROJECT_DIR$/client/src/app/circuit/circuit.component.ts" />
@@ -225,8 +332,10 @@
         <option value="$PROJECT_DIR$/client/src/app/auth/auth.component.html" />
         <option value="$PROJECT_DIR$/client/src/app/auth.service.ts" />
         <option value="$PROJECT_DIR$/client/src/app/auth/auth.component.ts" />
+        <option value="$PROJECT_DIR$/client/.angular-cli.json" />
         <option value="$PROJECT_DIR$/drf_sample/urls.py" />
         <option value="$PROJECT_DIR$/drf_sample/settings.py" />
+        <option value="$PROJECT_DIR$/client/src/imports/js/schematic.js" />
       </list>
     </option>
   </component>
@@ -288,7 +397,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -312,15 +420,15 @@
               <item name="drf_sample" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="imports" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="drf_sample" type="b2602c69:ProjectViewProjectNode" />
               <item name="drf_sample" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="auth" type="462c0819:PsiDirectoryNode" />
+              <item name="imports" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="drf_sample" type="b2602c69:ProjectViewProjectNode" />
@@ -331,6 +439,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -338,20 +447,21 @@
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Templates" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.tslint" value="$PROJECT_DIR$/client/node_modules/tslint" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/imports" />
       <recent name="$PROJECT_DIR$/client/src" />
       <recent name="$PROJECT_DIR$/drf_sample/server" />
       <recent name="$PROJECT_DIR$/drf_sample/server/config" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client" />
     </key>
   </component>
   <component name="RestClientSettings">
@@ -673,7 +783,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503865968764</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="removing some useless parts">
+      <created>1504108788238</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1504108788238</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -725,7 +842,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277592" sideWeight="0.48937786" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33110368" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32943144" sideWeight="0.4969651" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2215478" sideWeight="0.49004975" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22534142" sideWeight="0.49004975" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21396054" sideWeight="0.5099502" order="2" side_tool="true" content_ui="tabs" />
@@ -800,7 +917,8 @@
     <MESSAGE value="just before adding custom labels" />
     <MESSAGE value="after adding custom labes" />
     <MESSAGE value="a problem with dragiing items in guided level" />
-    <option name="LAST_COMMIT_MESSAGE" value="a problem with dragiing items in guided level" />
+    <MESSAGE value="removing some useless parts" />
+    <option name="LAST_COMMIT_MESSAGE" value="removing some useless parts" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -812,7 +930,7 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js</url>
+          <url>file://$PROJECT_DIR$/client/src/imports/js/schematic.js</url>
           <line>5823</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
@@ -878,7 +996,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/math.js">
+    <entry file="file://$PROJECT_DIR$/client/src/imports/js/math.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1207480">
           <caret line="60557" column="1" lean-forward="false" selection-start-line="60557" selection-start-column="1" selection-end-line="60557" selection-end-column="1" />
@@ -927,13 +1045,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/retail/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-254">
-          <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/retail/models.py" />
     <entry file="file:///usr/local/lib/python3.5/dist-packages/django/db/models/fields/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
@@ -948,7 +1060,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/en-US.js">
+    <entry file="file://$PROJECT_DIR$/client/src/imports/js/en-US.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
           <caret line="144" column="21" lean-forward="true" selection-start-line="144" selection-start-column="21" selection-end-line="144" selection-end-column="21" />
@@ -1039,14 +1151,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/circuit-sandbox/js/schematic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="4086" column="18" lean-forward="false" selection-start-line="4086" selection-start-column="18" selection-end-line="4086" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/typings.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -1086,13 +1190,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/.angular-cli.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-60">
-          <caret line="24" column="96" lean-forward="false" selection-start-line="24" selection-start-column="96" selection-end-line="24" selection-end-column="96" />
         </state>
       </provider>
     </entry>
@@ -1139,14 +1236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/auth.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="640">
@@ -1165,14 +1254,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drf_sample/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
@@ -1181,10 +1262,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/.angular-cli.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drf_sample/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/drf_sample/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="163" column="17" lean-forward="true" selection-start-line="163" selection-start-column="17" selection-end-line="163" selection-end-column="17" />
+        <state relative-caret-position="1320">
+          <caret line="66" column="43" lean-forward="false" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/imports/js/schematic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="6312" column="34" lean-forward="false" selection-start-line="6312" selection-start-column="34" selection-end-line="6312" selection-end-column="34" />
           <folding />
         </state>
       </provider>

@@ -1,8 +1,0 @@
-* TITLE: Butterworth Example circuit
-R1 n1 n2 600
-L1 n2 n3 0.01524
-C1 n3 0 1.1937e-07
-L2 n3 n4 0.06186
-C2 n4 0 1.5512e-07
-R2 n4 0 1200.0
-V1 n1 0 type=vdc vdc=5 vac=1 arg=0 type=pulse v1=0 v2=1 td=5e-07 per=2 tr=1e-12 tf=1e-12 pw=1

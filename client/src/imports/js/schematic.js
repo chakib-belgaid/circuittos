@@ -6269,9 +6269,9 @@ schematic = (function () {
     this.properties['name'] = name;
     this.properties['r'] = r ? r : '1';
     this.add_connection(0, 0);
-    this.add_connection(0, 48);
+    this.add_connection(0, 34);
     this.is_const=is_const;
-    this.bounding_box = [-5, 0, 5, 48];
+    this.bounding_box = [-5, 0, 5, 34];
     this.update_coords();
   }
 
@@ -6296,7 +6296,7 @@ schematic = (function () {
 
   Resistor.prototype.draw = function (c) {
     Component.prototype.draw.call(this, c);   // give superclass a shot
-    this.draw_line(c, 0, 0, 0, 12);
+    /*this.draw_line(c, 0, 0, 0, 12);
     this.draw_line(c, 0, 12, 4, 14);
     this.draw_line(c, 4, 14, -4, 18);
     this.draw_line(c, -4, 18, 4, 22);
@@ -6304,7 +6304,14 @@ schematic = (function () {
     this.draw_line(c, -4, 26, 4, 30);
     this.draw_line(c, 4, 30, -4, 34);
     this.draw_line(c, -4, 34, 0, 36);
-    this.draw_line(c, 0, 36, 0, 48);
+    this.draw_line(c, 0, 36, 0, 48); */
+
+    this.draw_line(c, -4, 8, 4, 8);
+    this.draw_line(c, -4, 26, 4, 26);
+    this.draw_line(c, -4, 8, -4, 26);
+    this.draw_line(c, 4, 8, 4, 26);
+    this.draw_line(c, 0, 0, 0, 8);
+    this.draw_line(c, 0, 26, 0, 34);
     if (!this.sch.is_static && this.properties['r']  )
       this.draw_text(c, this.properties['r'] + '\u03A9', 8, 24, 3, property_size);
     if (this.properties['name'])

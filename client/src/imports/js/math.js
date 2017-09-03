@@ -659,7 +659,7 @@ exports.flatten = function(array) {
  */
 exports.map = function (array, callback) {
   return Array.prototype.map.call(array, callback);
-}
+};
 
 /**
  * A safe forEach
@@ -668,7 +668,7 @@ exports.map = function (array, callback) {
  */
 exports.forEach = function (array, callback) {
   Array.prototype.forEach.call(array, callback);
-}
+};
 
 /**
  * A safe filter
@@ -681,7 +681,7 @@ exports.filter = function (array, callback) {
   }
 
   return Array.prototype.filter.call(array, callback);
-}
+};
 
 /**
  * Filter values in a callback given a regular expression
@@ -698,7 +698,7 @@ exports.filterRegExp = function (array, regexp) {
   return Array.prototype.filter.call(array, function (entry) {
     return regexp.test(entry);
   });
-}
+};
 
 /**
  * A safe join
@@ -707,7 +707,7 @@ exports.filterRegExp = function (array, regexp) {
  */
 exports.join = function (array, separator) {
   return Array.prototype.join.call(array, separator);
-}
+};
 
 /**
  * Assign a numeric identifier to every element of a sorted array
@@ -736,7 +736,7 @@ exports.identify = function(a) {
     b.push({value: a[i], identifier: count});
   }
   return b;
-}
+};
 
 /**
  * Remove the numeric identifier from the elements
@@ -757,7 +757,7 @@ exports.generalize = function(a) {
     b.push(a[i].value);
   }
   return b;
-}
+};
 
 /**
  * Test whether an object is an array
@@ -1048,7 +1048,7 @@ exports.toFixed = function (value, precision) {
     return String(value);
   }
 
-  var splitValue = exports.splitNumber(value)
+  var splitValue = exports.splitNumber(value);
   var rounded = exports.roundDigits(splitValue, splitValue.exponent + 1 + (precision || 0));
   var c = rounded.coefficients;
   var p = rounded.exponent + 1; // exponent may have changed
@@ -1086,7 +1086,7 @@ exports.toExponential = function (value, precision) {
   }
 
   // round if needed, else create a clone
-  var split = exports.splitNumber(value)
+  var split = exports.splitNumber(value);
   var rounded = precision ? exports.roundDigits(split, precision) : split;
   var c = rounded.coefficients;
   var e = rounded.exponent;
@@ -1100,7 +1100,7 @@ exports.toExponential = function (value, precision) {
   var first = c.shift();
   return rounded.sign + first + (c.length > 0 ? ('.' + c.join('')) : '') +
       'e' + (e >= 0 ? '+' : '') + e;
-}
+};
 
 /**
  * Format a number with a certain precision
@@ -1121,7 +1121,7 @@ exports.toPrecision = function (value, precision, options) {
   var lower = (options && options.lower !== undefined) ? options.lower : 1e-3;
   var upper = (options && options.upper !== undefined) ? options.upper : 1e+5;
 
-  var split = exports.splitNumber(value)
+  var split = exports.splitNumber(value);
   var abs = Math.abs(Math.pow(10, split.exponent));
   if (abs < lower || abs >= upper) {
     // exponential notation
@@ -1152,7 +1152,7 @@ exports.toPrecision = function (value, precision, options) {
 
     return rounded.sign + c.join('');
   }
-}
+};
 
 /**
  * Round the number of digits of a number *
@@ -1168,7 +1168,7 @@ exports.roundDigits = function (split, precision) {
     sign: split.sign,
     coefficients: split.coefficients,
     exponent: split.exponent
-  }
+  };
   var c = rounded.coefficients;
 
   // prepend zeros if needed
@@ -1432,9 +1432,9 @@ exports.clone = function clone(x) {
     });
   }
 
-  if (x instanceof Number)    return new Number(x.valueOf());
-  if (x instanceof String)    return new String(x.valueOf());
-  if (x instanceof Boolean)   return new Boolean(x.valueOf());
+  if (x instanceof Number) return Number(x.valueOf());
+  if (x instanceof String) return String(x.valueOf());
+  if (x instanceof Boolean) return Boolean(x.valueOf());
   if (x instanceof Date)      return new Date(x.valueOf());
   if (isBigNumber(x))         return x; // bignumbers are immutable
   if (x instanceof RegExp)  throw new TypeError('Cannot clone ' + x);  // TODO: clone a RegExp
@@ -1459,7 +1459,7 @@ exports.map = function(object, callback) {
   }
 
   return clone;
-}
+};
 
 /**
  * Extend object a with the properties of object b
@@ -1643,7 +1643,7 @@ exports.traverse = function(object, path) {
  */
 exports.hasOwnProperty = function (object, property) {
   return object && Object.hasOwnProperty.call(object, property);
-}
+};
 
 /**
  * Test whether an object is a factory. a factory has fields:
@@ -1764,7 +1764,7 @@ var hasOwnProperty = __webpack_require__(5).hasOwnProperty;
 
 function factory () {
   // map with node type as key and compile functions as value
-  var compileFunctions = {}
+  var compileFunctions = {};
 
   /**
    * Register a compile function for a node
@@ -2087,7 +2087,7 @@ exports.stringify = function (value) {
   }
 
   return '"' + escaped + '"';
-}
+};
 
 /**
  * Escape special HTML characters
@@ -2103,7 +2103,7 @@ exports.escape = function (value) {
 			 .replace(/>/g, '&gt;');
 
   return text;
-}
+};
 
 /**
  * Recursively format an n-dimensional matrix
@@ -5852,7 +5852,7 @@ function factory (type, config, load, typed) {
   var matrix = load(__webpack_require__(0));
   var compare = load(__webpack_require__(49));
 
-  var compareBooleans = compare.signatures['boolean,boolean']
+  var compareBooleans = compare.signatures['boolean,boolean'];
 
   /**
    * Compare two values of any type in a deterministic, natural way.
@@ -6066,8 +6066,8 @@ function factory (type, config, load, typed) {
     var keysY = Object.keys(y);
 
     // compare keys
-    keysX.sort(naturalSort)
-    keysY.sort(naturalSort)
+    keysX.sort(naturalSort);
+    keysY.sort(naturalSort);
     var c = compareArrays(keysX, keysY);
     if (c !== 0) {
       return c;
@@ -11137,7 +11137,7 @@ function factory (type, config, load, typed, math) {
       // execute the function with the right context: the object of the AccessorNode
       argsName = getUniqueArgumentName(defs);
       defs[argsName] = node.args;
-      defs.validateSafeMethod = validateSafeMethod
+      defs.validateSafeMethod = validateSafeMethod;
 
       var jsObject = compile(node.fn.object, defs, args);
       var jsProp = stringify(node.fn.index.getObjectProperty());
@@ -11183,7 +11183,7 @@ function factory (type, config, load, typed, math) {
    * @private
    */
   function compileScope (defs, args) {
-    var names = Object.keys(args)
+    var names = Object.keys(args);
         // .map(function (arg) {
         //   return args[arg];
         // });
@@ -11279,7 +11279,7 @@ function factory (type, config, load, typed, math) {
 
     var fn = type.isFunctionAssignmentNode(this.fn)
         ? ('(' + this.fn.toString(options) + ')')
-        : this.fn.toString(options)
+      : this.fn.toString(options);
 
     // format the arguments like "add(2, 4.2)"
     return fn + '(' + args.join(', ') + ')';
@@ -14558,7 +14558,7 @@ function factory (type, config, load, typed) {
    */
   IndexNode.prototype.toHTML = function (options) {
     // format the parameters like "[1, 0:5]"
-	var dimensions = []
+    var dimensions = [];
 	for (var i=0; i<this.dimensions.length; i++)	{
 	  dimensions[i] = this.dimensions[i].toHTML();
 	}
@@ -15981,7 +15981,7 @@ function factory (type, config, load, typed, math) {
             return _pickRandom(possibles, number, weights);
           }
         })
-      }
+      };
 
       var _pickRandom = function(possibles, number, weights) {
         var single = (typeof number === 'undefined');
@@ -16051,7 +16051,7 @@ function factory (type, config, load, typed, math) {
         return single ? result[0] : result;
 
         // TODO: add support for multi dimensional matrices
-      }
+      };
 
       var _random = function(min, max) {
         return min + distribution() * (max - min);
@@ -16338,7 +16338,7 @@ function factory (type, config, load, typed, math) {
     if (a.im < b.im) { return -1; }
 
     return 0;
-  }
+  };
 
   return Complex;
 }
@@ -20490,7 +20490,7 @@ function factory (type, config, load, typed, math) {
           newRule = {
             l: removeParens(parse(rule.l)),
             r: removeParens(parse(rule.r)),
-          }
+          };
           if(rule.context) {
             newRule.evaluate = rule.context;
           }
@@ -20908,11 +20908,11 @@ function factory(type, config, load, typed, math) {
   var commutative = {
     'add': true,
     'multiply': true
-  }
+  };
   var associative = {
     'add': true,
     'multiply': true
-  }
+  };
 
 
   function isCommutative(node, context) {
@@ -24553,7 +24553,7 @@ exports.create = function create (options) {
   // load the import and config functions
   math['import'] = load(importFactory);
   math['config'] = load(configFactory);
-  math.expression.mathWithTransform['config'] = math['config']
+  math.expression.mathWithTransform['config'] = math['config'];
 
   // apply options
   if (options) {
@@ -26284,9 +26284,9 @@ E.prototype = {
     function listener () {
       self.off(name, listener);
       callback.apply(ctx, arguments);
-    };
+    }
 
-    listener._ = callback
+    listener._ = callback;
     return this.on(name, listener, ctx);
   },
 
@@ -26488,7 +26488,7 @@ function factory (type, config, load, typed, math) {
     }
     else {
       // remove existing transform
-      delete math.expression.transform[name]
+      delete math.expression.transform[name];
       if (allowedInExpressions(name)) {
         math.expression.mathWithTransform[name] = value
       }
@@ -26528,7 +26528,7 @@ function factory (type, config, load, typed, math) {
   function _importFactory(factory, options) {
     if (typeof factory.name === 'string') {
       var name = factory.name;
-      var existingTransform = name in math.expression.transform
+      var existingTransform = name in math.expression.transform;
       var namespace = factory.path ? traverse(math, factory.path) : math;
       var existing = namespace.hasOwnProperty(name) ? namespace[name] : undefined;
 
@@ -26878,8 +26878,8 @@ exports.math = true; // request access to the math namespace
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*! decimal.js v7.2.3 https://github.com/MikeMcl/decimal.js/LICENCE */
-;(function (globalScope) {
-  'use strict';
+    (function (globalScope) {
+      'use strict';
 
 
   /*
@@ -35357,7 +35357,7 @@ function factory (type, config, load, typed) {
     // The value indices are inserted out of order, but apparently that's... still OK?
 
     return m;
-  }
+  };
 
   /**
    * Create a clone of the matrix
@@ -37765,7 +37765,7 @@ function factory (type, config, load, typed, math) {
     else {
       return unit;
     }
-  }
+  };
 
 
   /**
@@ -38015,7 +38015,7 @@ function factory (type, config, load, typed, math) {
     ret.isUnitListSimplified = true;
 
     return ret;
-  }
+  };
 
   /**
    * Get a string representation of the units of this Unit, without the value.
@@ -40003,7 +40003,7 @@ function factory (type, config, load, typed, math) {
 
       var isDigit = function (c) {
         return (c >= '0' && c <= '9');
-      }
+      };
 
       if(i === 0 && !isValidAlpha(c))
         throw new Error('Invalid unit name (must begin with alpha character): "' + name + '"');
@@ -46403,11 +46403,11 @@ function factory (type, config, load, typed) {
     */
   });
 
-  derivative._simplify = true
+  derivative._simplify = true;
 
   derivative.toTex = function(deriv) {
     return _derivTex.apply(null, deriv.args);
-  }
+  };
 
   var _derivTex = typed('_derivTex', {
     'Node, SymbolNode': function (expr, x) {
@@ -54325,7 +54325,7 @@ function _distancePointLine2D(x, y, a, b, c){
 }
 
 function _distancePointLine3D(x, y, z, x0, y0, z0, a, b, c){
-  var num = [((y0-y)*(c))-((z0-z)*(b)), ((z0-z)*(a))-((x0-x)*(c)), ((x0-x)*(b))-((y0-y)*(a))]
+  var num = [((y0 - y) * (c)) - ((z0 - z) * (b)), ((z0 - z) * (a)) - ((x0 - x) * (c)), ((x0 - x) * (b)) - ((y0 - y) * (a))];
   num = Math.pow(num[0]*num[0] + num[1]*num[1] + num[2]*num[2], 0.5);
   var den = Math.pow(a*a + b*b + c*c, 0.5);
   var result = num/den;
@@ -55529,7 +55529,7 @@ var size = __webpack_require__(2).size;
 
 function factory(type, config, load, typed) {
   var matrix = load(__webpack_require__(0));
-  var multiplyScalar = load(__webpack_require__(23))
+  var multiplyScalar = load(__webpack_require__(23));
     /**
      * Calculates the kronecker product of 2 matrices or vectors.
      *
@@ -56456,7 +56456,7 @@ function factory (type, config, load, typed, math) {
   }
 
   // initialize a seeded pseudo random number generator with config's random seed
-  setSeed(config.randomSeed)
+  setSeed(config.randomSeed);
 
   // wrapper function so the rng can be updated via generator
   function rng() {
@@ -57943,7 +57943,7 @@ function factory (type, config, load, typed) {
       }
     }
     return mode;
-  };
+  }
 }
 
 exports.name = 'mode';

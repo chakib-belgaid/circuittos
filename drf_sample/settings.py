@@ -61,16 +61,22 @@ INSTALLED_APPS = [
     # 'django.contrib.auth',
     # 'rest_framework_jwt',
     # 'rest_framework_auth0',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.auth0',
     'rest_framework',
     #'corsheaders',
     'levels'
 ]
-SITE_ID = 2
+SOCIALACCOUNT_PROVIDERS = {
+    'auth0': {
+        'AUTH0_URL': 'https://circuitmaze.eu.auth0.com',
+    }
+}
+SITE_ID = 3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
