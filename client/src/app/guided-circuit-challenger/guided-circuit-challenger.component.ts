@@ -17,7 +17,7 @@ export class GuidedCircuitChallengerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.circuit = new schematic.Schematic(this.input.nativeElement);
+    this.circuit = new schematic.Schema(this.input.nativeElement);
     this.circuit.allow_edits = false;
     this.circuit.is_static = true;
     this.route.paramMap.subscribe((params: ParamMap) => {

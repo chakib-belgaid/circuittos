@@ -2092,7 +2092,7 @@ schematic = (function () {
   var annotation_style = 'rgb(249,104,93)';	// KA humanities5 #F9685D v and i annotations
   var cancel_style = 'rgb(186,190,194)';		// KA gray76 #BABEC2 cancel X icon
   var ok_style = 'rgb(113,179,7)';			// KA Exerxise #71B307 ok checkmark icon
-  var property_size = 7;  					// point size for Component property text
+  var property_size = 7;  					// point size for Composant property text
   var annotation_size = 7;  					// point size for diagram annotations
 
   var parts_map = {
@@ -2100,9 +2100,9 @@ schematic = (function () {
     'L': [Label, i18n.Node_label],
     'v': [VSource, i18n.Voltage_source],
     'i': [ISource, i18n.Current_source],
-    'r': [Resistor, i18n.Resistor],
-    'c': [Capacitor, i18n.Capacitor],
-    'l': [Inductor, i18n.Inductor],
+    'r': [Resistance, i18n.Resistor],
+    'c': [Condensateur, i18n.Capacitor],
+    'l': [Inducteur, i18n.Inductor],
     'o': [OpAmp, i18n.Op_Amp],
     'd': [Diode, i18n.Diode],
     'n': [NFet, i18n.NFet],
@@ -2118,12 +2118,12 @@ schematic = (function () {
 
   ///////////////////////////////////////////////////////////////////////////////
   //
-  //  Schematic = diagram + parts bin + status area
+  //  Schema = diagram + parts bin + status area
   //
   ////////////////////////////////////////////////////////////////////////////////
 
   // setup a schematic by populating the <div> with the appropriate children
-  function Schematic(input) {
+  function Schema(input) {
     // set up diagram viewing parameters
 
     this.show_grid = true;
@@ -2142,7 +2142,7 @@ schematic = (function () {
     this.allow_edits = true;
     this.is_static = false ; // this is for chapter one
     this.input = input;
-    this.parts = []; // representation with mnemonics ex Resistor : R , Capacitor C ...
+    this.parts = []; // representation with mnemonics ex Resistance : R , Condensateur C ...
       this.analyses = [];// full array = ['dc', 'ac', 'tran']
     this.parts_bin = [];
     this.submit_analyses = undefined;
@@ -2170,7 +2170,7 @@ schematic = (function () {
 
   var part_w = 42;   // size of a parts bin compartment
   var part_h = 42;
-  Schematic.prototype.update_parts = function () {
+  Schema.prototype.update_parts = function () {
     //this.parts_bin = [];
     for (var i = 0; i < this.parts.length; i++) {
       var part = new Part(this);
@@ -2181,7 +2181,7 @@ schematic = (function () {
     }
 
   }
-  Schematic.prototype.update_schematic1 = function () {
+  Schema.prototype.update_schematic1 = function () {
 
 
 
@@ -2546,21 +2546,21 @@ schematic = (function () {
 
   }
 
-  Schematic.prototype.add_component = function (new_c) {
+  Schema.prototype.add_component = function (new_c) {
     this.components.push(new_c);
     // create undoable edit record here
   }
 
-  Schematic.prototype.remove_component = function (c) {
+  Schema.prototype.remove_component = function (c) {
     var index = this.components.indexOf(c);
     if (index != -1) this.components.splice(index, 1);
   }
 
-  Schematic.prototype.find_connections = function (cp) {
+  Schema.prototype.find_connections = function (cp) {
     return this.connection_points[cp.location];
   }
 
-  Schematic.prototype.add_connection_point = function (cp) {
+  Schema.prototype.add_connection_point = function (cp) {
     var cplist = this.connection_points[cp.location];
     if (cplist) cplist.push(cp);
     else {
@@ -2571,7 +2571,7 @@ schematic = (function () {
     return cplist;
   }
 
-  Schematic.prototype.remove_connection_point = function (cp, old_location) {
+  Schema.prototype.remove_connection_point = function (cp, old_location) {
     // remove cp from list at old location
     var cplist = this.connection_points[old_location];
     if (cplist) {
@@ -2586,19 +2586,19 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.update_connection_point = function (cp, old_location) {
+  Schema.prototype.update_connection_point = function (cp, old_location) {
     this.remove_connection_point(cp, old_location);
     return this.add_connection_point(cp);
   }
 
-  Schematic.prototype.add_wire = function (x1, y1, x2, y2) {
+  Schema.prototype.add_wire = function (x1, y1, x2, y2) {
     var new_wire = new Wire(x1, y1, x2, y2);
     new_wire.add(this);
     new_wire.move_end();
     return new_wire;
   }
 
-  Schematic.prototype.split_wire = function (w, cp) {
+  Schema.prototype.split_wire = function (w, cp) {
     // remove bisected wire
     w.remove();
 
@@ -2608,7 +2608,7 @@ schematic = (function () {
   }
 
   // see if connection points of component c split any wires
-  Schematic.prototype.check_wires = function (c) {
+  Schema.prototype.check_wires = function (c) {
     for (var i = 0; i < this.components.length; i++) {
       var cc = this.components[i];
       if (cc != c) {  // don't check a component against itself
@@ -2624,7 +2624,7 @@ schematic = (function () {
   }
 
   // see if there are any existing connection points that bisect wire w
-  Schematic.prototype.check_connection_points = function (w) {
+  Schema.prototype.check_connection_points = function (w) {
     for (var locn in this.connection_points) {
       var cplist = this.connection_points[locn];
       if (cplist && w.bisect_cp(cplist[0])) {
@@ -2638,7 +2638,7 @@ schematic = (function () {
   }
 
   // merge collinear wires sharing an end point
-  Schematic.prototype.clean_up_wires = function () {
+  Schema.prototype.clean_up_wires = function () {
     for (var locn in this.connection_points) {
       var cplist = this.connection_points[locn];
       if (cplist && cplist.length == 2) {
@@ -2659,13 +2659,13 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.unselect_all = function (which) {
+  Schema.prototype.unselect_all = function (which) {
     this.operating_point = undefined;  // remove annotations
     for (var i = this.components.length - 1; i >= 0; --i)
       if (i != which) this.components[i].set_select(false);
   }
 
-  Schematic.prototype.drag_begin = function () {
+  Schema.prototype.drag_begin = function () {
     // let components know they're about to move
 
     for (var i = this.components.length - 1; i >= 0; --i) {
@@ -2679,7 +2679,7 @@ schematic = (function () {
     this.dragging = true;
   }
 
-  Schematic.prototype.drag_end = function () {
+  Schema.prototype.drag_end = function () {
     // let components know they're done moving
     for (var i = this.components.length - 1; i >= 0; --i) {
       var component = this.components[i];
@@ -2690,14 +2690,14 @@ schematic = (function () {
     this.redraw_background();
   }
 
-  Schematic.prototype.help = function () {
+  Schema.prototype.help = function () {
     /* Embedded help strings can be found in i18n strings files: en-US.js, es.js, and the like.	*/
     var strHelp = strSHelp + strAddC + strAddW + strSel + strMove + strDel + strRot + strProp + strNum;
     window.confirm(strHelp);
   }
 
   // zoom diagram around given coords
-  Schematic.prototype.rescale = function (nscale, cx, cy) {
+  Schema.prototype.rescale = function (nscale, cx, cy) {
     if (cx == undefined) {
       // use current center point if no point has been specified
       cx = this.origin_x + this.width / (2 * this.scale);
@@ -2710,7 +2710,7 @@ schematic = (function () {
     this.redraw_background();
   }
 
-  Schematic.prototype.toggle_grid = function () {
+  Schema.prototype.toggle_grid = function () {
     this.show_grid = !this.show_grid;
     this.redraw_background();
   }
@@ -2722,7 +2722,7 @@ schematic = (function () {
   var origin_min = -200;    // in grids
   var origin_max = 200;
 
-  Schematic.prototype.zoomin = function () {
+  Schema.prototype.zoomin = function () {
     var nscale = this.scale * zoom_factor;
     if (nscale < zoom_max) {
       // keep center of view unchanged
@@ -2733,7 +2733,7 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.zoomout = function () {
+  Schema.prototype.zoomout = function () {
     var nscale = this.scale / zoom_factor;
     if (nscale > zoom_min) {
       // keep center of view unchanged
@@ -2744,7 +2744,7 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.zoomall = function () {
+  Schema.prototype.zoomall = function () {
     // w,h for schematic including a 25% margin on all sides
     var sch_w = 1.5 * (this.bbox[2] - this.bbox[0]);
     var sch_h = 1.5 * (this.bbox[3] - this.bbox[1]);
@@ -2769,7 +2769,7 @@ schematic = (function () {
     this.redraw_background();
   }
 
-  Schematic.prototype.cut = function () {
+  Schema.prototype.cut = function () {
     // clear previous contents
     sch_clipboard = [];
 
@@ -2786,7 +2786,7 @@ schematic = (function () {
     this.redraw();
   }
 
-  Schematic.prototype.copy = function () {
+  Schema.prototype.copy = function () {
     // clear previous contents
     sch_clipboard = [];
 
@@ -2798,7 +2798,7 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.paste = function () {
+  Schema.prototype.paste = function () {
     // compute left,top of bounding box for origins of
     // components in the clipboard
     var left = undefined;
@@ -2827,7 +2827,7 @@ schematic = (function () {
     this.redraw();
   }
 
-  Schematic.prototype.delete_selected = function () {
+  Schema.prototype.delete_selected = function () {
     // delete selected components
     for (var i = this.components.length - 1; i >= 0; --i) {
       var component = this.components[i];
@@ -2837,7 +2837,7 @@ schematic = (function () {
     this.redraw();
   }
 
-  Schematic.prototype.rotate_selected = function () {
+  Schema.prototype.rotate_selected = function () {
     // rotate selected components
     for (var i = this.components.length - 1; i >= 0; --i) {
       var component = this.components[i];
@@ -2855,7 +2855,7 @@ schematic = (function () {
   //  Netlist and Simulation interface
   //
   ////////////////////////////////////////////////////////////////////////////////
-  Schematic.prototype.get_json = function (json)
+  Schema.prototype.get_json = function (json)
   {
      for (var i = json.length - 1; i >= 0; --i) {
         var c = json[i];
@@ -2893,7 +2893,7 @@ schematic = (function () {
       }
   }
   // load diagram from JSON representation
-  Schematic.prototype.load_schematic = function (value, initial_value) {
+  Schema.prototype.load_schematic = function (value, initial_value) {
     // use default value if no schematic info in value
     if (value == undefined || value.indexOf('[') == -1)
       value = initial_value;
@@ -2958,7 +2958,7 @@ schematic = (function () {
   }
 
   // label all the nodes in the circuit
-  Schematic.prototype.label_connection_points = function () {
+  Schema.prototype.label_connection_points = function () {
     // start by clearing all the connection point labels
     for (var i = this.components.length - 1; i >= 0; --i)
       this.components[i].clear_labels();
@@ -2977,14 +2977,14 @@ schematic = (function () {
       this.components[i].label_connections();
   }
 
-  Schematic.prototype.get_next_label = function () {
+  Schema.prototype.get_next_label = function () {
     // generate next label in sequence
     this.next_label += 1;
     return this.next_label.toString();
   }
 
   // propagate label to coincident connection points
-  Schematic.prototype.propagate_label = function (label, location) {
+  Schema.prototype.propagate_label = function (label, location) {
     var cplist = this.connection_points[location];
     for (var i = cplist.length - 1; i >= 0; --i)
       cplist[i].propagate_label(label);
@@ -2992,7 +2992,7 @@ schematic = (function () {
 
   // update the value field of our corresponding input field with JSON
   // representation of schematic
-  Schematic.prototype.update_value = function () {
+  Schema.prototype.update_value = function () {
     // label connection points
     this.label_connection_points();
 
@@ -3001,7 +3001,7 @@ schematic = (function () {
     this.input.value = JSON.stringify(this.json_with_analyses());
   }
 
-  Schematic.prototype.json = function () {
+  Schema.prototype.json = function () {
     var json = [];
 
     // output all the components/wires in the diagram
@@ -3018,7 +3018,7 @@ schematic = (function () {
     return json;
   }
 
-  Schematic.prototype.json_with_analyses = function () {
+  Schema.prototype.json_with_analyses = function () {
     var json = this.json();
 
     if (this.dc_results != undefined) json.push(['dc', this.dc_results]);
@@ -3034,7 +3034,7 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  Schematic.prototype.save_netlist = function () {
+  Schema.prototype.save_netlist = function () {
     // give circuit nodes a name, download netlist to client
     this.label_connection_points();
     var netlist = this.json();
@@ -3048,7 +3048,7 @@ schematic = (function () {
 
   }
 
-  /*Schematic.prototype.share_link = function() {
+  /*Schema.prototype.share_link = function() {
      // give circuit nodes a name, create and display sharable link
      this.label_connection_points();
      var netlist = this.json();
@@ -3071,7 +3071,7 @@ schematic = (function () {
      console.log("sharable link: " + strSimulator + '?value=' + this.input.value);
      }*/
 
-  /*	Schematic.prototype.open_netlist = function() {
+  /*	Schema.prototype.open_netlist = function() {
      this.unselect_all(-1);
      this.redraw_background();
 
@@ -3129,7 +3129,7 @@ schematic = (function () {
      }
      }
      */
-  Schematic.prototype.extract_circuit = function () {
+  Schema.prototype.extract_circuit = function () {
     // give all the circuit nodes a name, extract netlist
     this.label_connection_points();
     var netlist = this.json();
@@ -3146,7 +3146,7 @@ schematic = (function () {
       return null;
   }
 
-  Schematic.prototype.dc_analysis = function () {
+  Schema.prototype.dc_analysis = function () {
     // remove any previous annotations
     this.unselect_all(-1);
     this.redraw_background();
@@ -3171,7 +3171,7 @@ schematic = (function () {
 
   // return a list of [color,node_label,offset,type] for each probe in the diagram
   // type == 'voltage' or 'current'
-  Schematic.prototype.find_probes = function () {
+  Schema.prototype.find_probes = function () {
     var result = [];
     var result = [];
     for (var i = this.components.length - 1; i >= 0; --i) {
@@ -3183,7 +3183,7 @@ schematic = (function () {
   }
 
   // use a dialog to get AC analysis parameters
-  Schematic.prototype.setup_ac_analysis = function () {
+  Schema.prototype.setup_ac_analysis = function () {
     this.unselect_all(-1);
     this.redraw_background();
 
@@ -3222,7 +3222,7 @@ schematic = (function () {
     });
   }
 
-  Schematic.prototype.ac_analysis = function (npts, fstart, fstop, ac_source_name) {
+  Schema.prototype.ac_analysis = function (npts, fstart, fstop, ac_source_name) {
     var ckt = this.extract_circuit();
     if (ckt === null) return;
     var results = ckt.ac(npts, fstart, fstop, ac_source_name);
@@ -3317,7 +3317,7 @@ schematic = (function () {
     }
   }
 
-  Schematic.prototype.transient_analysis = function () {
+  Schema.prototype.transient_analysis = function () {
     this.unselect_all(-1);
     this.redraw_background();
 
@@ -3441,7 +3441,7 @@ schematic = (function () {
   }
 
   // external interface for setting the property value of a named component
-  Schematic.prototype.set_property = function (component_name, property, value) {
+  Schema.prototype.set_property = function (component_name, property, value) {
     this.unselect_all(-1);
 
     for (var i = this.components.length - 1; i >= 0; --i) {
@@ -3463,7 +3463,7 @@ schematic = (function () {
 
   // here to redraw background image containing static portions of the schematic.
   // Also redraws dynamic portion.
-  Schematic.prototype.redraw_background = function () {
+  Schema.prototype.redraw_background = function () {
     var c = this.bg_image.getContext('2d');
     //c.scale(2,2);	//retina display - doesn't look good
 
@@ -3508,7 +3508,7 @@ schematic = (function () {
   }
 
   // redraw what user sees = static image + dynamic parts
-  Schematic.prototype.redraw = function () {
+  Schema.prototype.redraw = function () {
     var c = this.canvas.getContext('2d');
 
     // put static image in the background
@@ -3733,20 +3733,20 @@ schematic = (function () {
   }
 
   // draws a cross cursor
-  Schematic.prototype.cross_cursor = function (c, x, y) {
+  Schema.prototype.cross_cursor = function (c, x, y) {
     this.draw_line(c, x - this.grid, y, x + this.grid, y, 1);
     this.draw_line(c, x, y - this.grid, x, y + this.grid, 1);
   }
 
-  Schematic.prototype.moveTo = function (c, x, y) {
+  Schema.prototype.moveTo = function (c, x, y) {
     c.moveTo((x - this.origin_x) * this.scale, (y - this.origin_y) * this.scale);
   }
 
-  Schematic.prototype.lineTo = function (c, x, y) {
+  Schema.prototype.lineTo = function (c, x, y) {
     c.lineTo((x - this.origin_x) * this.scale, (y - this.origin_y) * this.scale);
   }
 
-  Schematic.prototype.draw_line = function (c, x1, y1, x2, y2, width) {
+  Schema.prototype.draw_line = function (c, x1, y1, x2, y2, width) {
     c.lineWidth = width * this.scale;
     c.beginPath();
     c.moveTo((x1 - this.origin_x) * this.scale, (y1 - this.origin_y) * this.scale);
@@ -3754,7 +3754,7 @@ schematic = (function () {
     c.stroke();
   }
 
-  Schematic.prototype.draw_arc = function (c, x, y, radius, start_radians, end_radians, anticlockwise, width, filled) {
+  Schema.prototype.draw_arc = function (c, x, y, radius, start_radians, end_radians, anticlockwise, width, filled) {
     c.lineWidth = width * this.scale;
     c.beginPath();
     c.arc((x - this.origin_x) * this.scale, (y - this.origin_y) * this.scale, radius * this.scale,
@@ -3763,7 +3763,7 @@ schematic = (function () {
     else c.stroke();
   }
 
-  Schematic.prototype.draw_text = function (c, text, x, y, size) {
+  Schema.prototype.draw_text = function (c, text, x, y, size) {
 
     c.font = size * this.scale + 'pt sans-serif'
     c.fillText(text, (x - this.origin_x) * this.scale, (y - this.origin_y) * this.scale);
@@ -4193,11 +4193,11 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  Schematic.prototype.message = function (message) {
+  Schema.prototype.message = function (message) {
       this.status.nodeValue = message;
   }
 
-  Schematic.prototype.append_message = function (message) {
+  Schema.prototype.append_message = function (message) {
     this.status.nodeValue += ' / ' + message;
   }
 
@@ -4206,7 +4206,7 @@ schematic = (function () {
   // and we're done.  If OK is clicked, dialog goes away and the
   // callback function is called with the content as an argument (so
   // that the values of any fields can be captured).
-  Schematic.prototype.dialog = function (title, content, callback) {
+  Schema.prototype.dialog = function (title, content, callback) {
     // create the div for the top level of the dialog, add to DOM
     var dialog = document.createElement('div');
     dialog.sch = this;
@@ -4348,7 +4348,7 @@ schematic = (function () {
     return select;
   }
 
-  Schematic.prototype.window = build_window;
+  Schema.prototype.window = build_window;
 
   function build_window(title, content, offset) {
     // create the div for the top level of the window
@@ -4502,7 +4502,7 @@ schematic = (function () {
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  Schematic.prototype.add_tool = function (icon, tip, callback) {
+  Schema.prototype.add_tool = function (icon, tip, callback) {
     var tool;
     if (icon.search('data:image') != -1) {
       tool = document.createElement('img');
@@ -4545,7 +4545,7 @@ schematic = (function () {
     return tool;
   }
 
-  Schematic.prototype.enable_tool = function (tname, which) {
+  Schema.prototype.enable_tool = function (tname, which) {
     var tool = this.tools[tname];
 
     if (tool != undefined) {
@@ -4753,7 +4753,7 @@ schematic = (function () {
   // x_values is an array of x coordinates for each of the plots
   // y_values is an array of [color, value_array], one entry for each plot on left vertical axis
   // z_values is an array of [color, value_array], one entry for each plot on right vertical axis
-  Schematic.prototype.graph = function (x_values, x_legend, y_values, y_legend, z_values, z_legend) {
+  Schema.prototype.graph = function (x_values, x_legend, y_values, y_legend, z_values, z_legend) {
     var pwidth = 400;	// dimensions of actual plot
     var pheight = 300;	// dimensions of actual plot
     var left_margin = (y_values != undefined && y_values.length > 0) ? 65 : 25;
@@ -5377,11 +5377,11 @@ schematic = (function () {
 
   ////////////////////////////////////////////////////////////////////////////////
   //
-  //  Component base class
+  //  Composant base class
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Component(type, x, y, rotation) {
+  function Composant(type, x, y, rotation) {
     this.sch = undefined;
     this.type = type;
     this.x = x;
@@ -5397,10 +5397,12 @@ schematic = (function () {
 
   }
 
-  Component.prototype.randomize = function(){}
-  Component.prototype.get_value = function(){}
+  Composant.prototype.randomize = function () {
+  }
+  Composant.prototype.get_value = function () {
+  }
 
-  Component.prototype.json = function (index) {
+  Composant.prototype.json = function (index) {
     this.properties['_json_'] = index; // remember where we are in the JSON list
 
     var props = {};
@@ -5414,11 +5416,11 @@ schematic = (function () {
     return json;
   }
 
-  Component.prototype.add_connection = function (offset_x, offset_y) {
-    this.connections.push(new ConnectionPoint(this, offset_x, offset_y));
+  Composant.prototype.add_connection = function (offset_x, offset_y) {
+    this.connections.push(new PointConnection(this, offset_x, offset_y));
   }
 
-  Component.prototype.update_coords = function () {
+  Composant.prototype.update_coords = function () {
     var x = this.x;
     var y = this.y;
 
@@ -5435,7 +5437,7 @@ schematic = (function () {
       this.connections[i].update_location();
   }
 
-  Component.prototype.rotate = function (amount) {
+  Composant.prototype.rotate = function (amount) {
     var old_rotation = this.rotation;
     this.rotation = (this.rotation + amount) % 8;
     this.update_coords();
@@ -5444,20 +5446,20 @@ schematic = (function () {
     // using old_rotation
   }
 
-  Component.prototype.move_begin = function () {
+  Composant.prototype.move_begin = function () {
     // remember where we started this move
     this.move_x = this.x;
     this.move_y = this.y;
   }
 
-  Component.prototype.move = function (dx, dy) {
+  Composant.prototype.move = function (dx, dy) {
     // update coordinates
     this.x += dx;
     this.y += dy;
     this.update_coords();
   }
 
-  Component.prototype.move_end = function () {
+  Composant.prototype.move_end = function () {
     var dx = this.x - this.move_x;
     var dy = this.y - this.move_y;
 
@@ -5468,14 +5470,14 @@ schematic = (function () {
     }
   }
 
-  Component.prototype.add = function (sch) {
+  Composant.prototype.add = function (sch) {
     this.sch = sch;   // we now belong to a schematic!
     sch.add_component(this);
 
     this.update_coords();
   }
 
-  Component.prototype.remove = function () {
+  Composant.prototype.remove = function () {
     // remove connection points from schematic
     for (var i = this.connections.length - 1; i >= 0; --i) {
       var cp = this.connections[i];
@@ -5489,7 +5491,7 @@ schematic = (function () {
     // create an undoable edit record here
   }
 
-  Component.prototype.transform_x = function (x, y) {
+  Composant.prototype.transform_x = function (x, y) {
     var rot = this.rotation;
     if (rot == 0 || rot == 6) return x;
     else if (rot == 1 || rot == 5) return -y;
@@ -5497,7 +5499,7 @@ schematic = (function () {
     else return y;
   }
 
-  Component.prototype.transform_y = function (x, y) {
+  Composant.prototype.transform_y = function (x, y) {
     var rot = this.rotation;
     if (rot == 1 || rot == 7) return x;
     else if (rot == 2 || rot == 6) return -y;
@@ -5505,19 +5507,19 @@ schematic = (function () {
     else return y;
   }
 
-  Component.prototype.moveTo = function (c, x, y) {
+  Composant.prototype.moveTo = function (c, x, y) {
     var nx = this.transform_x(x, y) + this.x;
     var ny = this.transform_y(x, y) + this.y;
     this.sch.moveTo(c, nx, ny);
   }
 
-  Component.prototype.lineTo = function (c, x, y) {
+  Composant.prototype.lineTo = function (c, x, y) {
     var nx = this.transform_x(x, y) + this.x;
     var ny = this.transform_y(x, y) + this.y;
     this.sch.lineTo(c, nx, ny);
   }
 
-  Component.prototype.draw_line = function (c, x1, y1, x2, y2) {
+  Composant.prototype.draw_line = function (c, x1, y1, x2, y2) {
     c.strokeStyle = this.selected ? selected_style :
       this.type == 'w' ? normal_style : component_style;
     var nx1 = this.transform_x(x1, y1) + this.x;
@@ -5527,7 +5529,7 @@ schematic = (function () {
     this.sch.draw_line(c, nx1, ny1, nx2, ny2, 1);
   }
 
-  Component.prototype.draw_circle = function (c, x, y, radius, filled) {
+  Composant.prototype.draw_circle = function (c, x, y, radius, filled) {
     if (filled) c.fillStyle = this.selected ? selected_style : normal_style;
     else c.strokeStyle = this.selected ? selected_style :
       this.type == 'w' ? normal_style : component_style;
@@ -5548,7 +5550,7 @@ schematic = (function () {
     3 * Math.PI / 2,	// RWEST (int-pos)
   ];
 
-  Component.prototype.draw_arc = function (c, x, y, radius, start_radians, end_radians) {
+  Composant.prototype.draw_arc = function (c, x, y, radius, start_radians, end_radians) {
     c.strokeStyle = this.selected ? selected_style :
       this.type == 'w' ? normal_style : component_style;
     var nx = this.transform_x(x, y) + this.x;
@@ -5558,7 +5560,7 @@ schematic = (function () {
       false, 1, false);
   }
 
-  Component.prototype.draw = function (c) {
+  Composant.prototype.draw = function (c) {
     /* for debug: puts X on connection points
          for (var i = this.connections.length - 1; i >= 0; --i) {
          var cp = this.connections[i];
@@ -5591,7 +5593,7 @@ schematic = (function () {
     'bottom', 'bottom', 'bottom'
   ];
 
-  Component.prototype.draw_text = function (c, text, x, y, alignment, size, fill) {
+  Composant.prototype.draw_text = function (c, text, x, y, alignment, size, fill) {
     var a = aOrient[this.rotation * 9 + alignment];
     c.textAlign = textAlign[a];
     c.textBaseline = textBaseline[a];
@@ -5605,14 +5607,14 @@ schematic = (function () {
       size);
   }
 
-  Component.prototype.set_select = function (which) {
+  Composant.prototype.set_select = function (which) {
     if (which != this.selected) {
       this.selected = which;
       // create an undoable edit record here
     }
   }
 
-  Component.prototype.select = function (x, y, shiftKey) {
+  Composant.prototype.select = function (x, y, shiftKey) {
     this.was_previously_selected = this.selected;
     if (this.near(x, y)) {
       this.set_select(shiftKey ? !this.selected : true);
@@ -5620,7 +5622,7 @@ schematic = (function () {
     } else return false;
   }
 
-  Component.prototype.select_rect = function (s) {
+  Composant.prototype.select_rect = function (s) {
     this.was_previously_selected = this.selected;
     if (intersect(this.bbox, s))
       this.set_select(true);
@@ -5629,16 +5631,16 @@ schematic = (function () {
   // if connection point of component c bisects the
   // wire represented by this compononent, return that
   // connection point.  Otherwise return null.
-  Component.prototype.bisect = function (c) {
+  Composant.prototype.bisect = function (c) {
     return null;
   }
 
   // does mouse click fall on this component?
-  Component.prototype.near = function (x, y) {
+  Composant.prototype.near = function (x, y) {
     return inside(this.bbox, x, y);
   }
 
-  Component.prototype.edit_properties = function (x, y) {
+  Composant.prototype.edit_properties = function (x, y) {
     if ( this.sch.is_static && !this.sch.allow_edits)
       return ;
     if (this.near(x, y) && ! this.is_const ) {
@@ -5674,23 +5676,23 @@ schematic = (function () {
     } else return false;
   }
 
-  Component.prototype.clear_labels = function () {
+  Composant.prototype.clear_labels = function () {
     for (var i = this.connections.length - 1; i >= 0; --i) {
       this.connections[i].clear_label();
     }
   }
 
   // default action: don't propagate label
-  Component.prototype.propagate_label = function (label) {
+  Composant.prototype.propagate_label = function (label) {
   }
 
   // give components a chance to generate default labels for their connection(s)
   // default action: do nothing
-  Component.prototype.add_default_labels = function () {
+  Composant.prototype.add_default_labels = function () {
   }
 
   // component should generate labels for all unlabeled connections
-  Component.prototype.label_connections = function () {
+  Composant.prototype.label_connections = function () {
     for (var i = this.connections.length - 1; i >= 0; --i) {
       var cp = this.connections[i];
       if (!cp.label)
@@ -5699,12 +5701,12 @@ schematic = (function () {
   }
 
   // default behavior: no probe info
-  Component.prototype.probe_info = function () {
+  Composant.prototype.probe_info = function () {
     return undefined;
   }
 
   // default behavior: nothing to display for DC analysis
-  Component.prototype.display_current = function (c, vmap) {
+  Composant.prototype.display_current = function (c, vmap) {
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -5715,7 +5717,7 @@ schematic = (function () {
 
   var connection_point_radius = 2;
 
-  function ConnectionPoint(parent, x, y) {
+  function PointConnection(parent, x, y) {
     this.parent = parent;
     this.offset_x = x;
     this.offset_y = y;
@@ -5724,19 +5726,19 @@ schematic = (function () {
     this.label = undefined;
   }
 
-  ConnectionPoint.prototype.toString = function () {
-    return '<ConnectionPoint (' + this.offset_x + ',' + this.offset_y + ') ' + this.parent.toString() + '>';
+  PointConnection.prototype.toString = function () {
+    return '<PointConnection (' + this.offset_x + ',' + this.offset_y + ') ' + this.parent.toString() + '>';
   }
 
-  ConnectionPoint.prototype.json = function () {
+  PointConnection.prototype.json = function () {
     return this.label;
   }
 
-  ConnectionPoint.prototype.clear_label = function () {
+  PointConnection.prototype.clear_label = function () {
     this.label = undefined;
   }
 
-  ConnectionPoint.prototype.propagate_label = function (label) {
+  PointConnection.prototype.propagate_label = function (label) {
     // should we check if existing label is the same?  it should be...
 
     if (this.label === undefined) {
@@ -5752,7 +5754,7 @@ schematic = (function () {
       alert(i18n.Node_has_two_conflicting_labels + this.label + ', ' + label);
   }
 
-  ConnectionPoint.prototype.update_location = function () {
+  PointConnection.prototype.update_location = function () {
     // update location string which we use as a key to find coincident connection points
     var old_location = this.location;
     var parent = this.parent;
@@ -5767,21 +5769,21 @@ schematic = (function () {
       parent.sch.update_connection_point(this, old_location);
   }
 
-  ConnectionPoint.prototype.coincident = function (x, y) {
+  PointConnection.prototype.coincident = function (x, y) {
     return this.x == x && this.y == y;
   }
 
-  ConnectionPoint.prototype.draw = function (c, n) {
+  PointConnection.prototype.draw = function (c, n) {
     if (n != 2)
       this.parent.draw_circle(c, this.offset_x, this.offset_y, connection_point_radius, n > 2);
   }
 
-  ConnectionPoint.prototype.draw_x = function (c) {
+  PointConnection.prototype.draw_x = function (c) {
     this.parent.draw_line(c, this.offset_x - 2, this.offset_y - 2, this.offset_x + 2, this.offset_y + 2);
     this.parent.draw_line(c, this.offset_x + 2, this.offset_y - 2, this.offset_x - 2, this.offset_y + 2);
   }
 
-  ConnectionPoint.prototype.display_voltage = function (c, vmap) {
+  PointConnection.prototype.display_voltage = function (c, vmap) {
     var v = vmap[this.label];
     if (v != undefined) {
       var label = v.toFixed(2) + 'V';
@@ -5818,7 +5820,7 @@ schematic = (function () {
 
   function Wire(x1, y1, x2, y2,is_const) {
     // arbitrarily call x1,y1 the origin
-    Component.call(this, 'w', x1, y1, 0);
+    Composant.call(this, 'w', x1, y1, 0);
     this.dx = x2 - x1;
     this.dy = y2 - y1;
     this.is_const= is_const;
@@ -5839,7 +5841,7 @@ schematic = (function () {
     this.len = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
   }
 
-  Wire.prototype = new Component();
+  Wire.prototype = new Composant();
   Wire.prototype.constructor = Wire;
 
   Wire.prototype.toString = function () {
@@ -5947,14 +5949,14 @@ schematic = (function () {
   ////////////////////////////////////////////////////////////////////////////////
 
   function Ground(x, y, rotation,is_const) {
-    Component.call(this, 'g', x, y, rotation);
+    Composant.call(this, 'g', x, y, rotation);
     this.add_connection(0, 0);
     this.is_const=is_const;
     this.bounding_box = [-6, 0, 6, 14];
     this.update_coords();
   }
 
-  Ground.prototype = new Component();
+  Ground.prototype = new Composant();
   Ground.prototype.constructor = Ground;
 
   Ground.prototype.toString = function () {
@@ -5962,7 +5964,7 @@ schematic = (function () {
   }
 
   Ground.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 8);
     this.draw_line(c, -6, 8, 6, 8);
     this.draw_line(c, -6, 8, 0, 14);
@@ -5991,7 +5993,7 @@ schematic = (function () {
   ////////////////////////////////////////////////////////////////////////////////
 
   function Label(x, y, rotation, label,is_const) {
-    Component.call(this, 'L', x, y, rotation);
+    Composant.call(this, 'L', x, y, rotation);
     this.properties['name'] = label ? label : '???';
     this.is_const=is_const;
     this.add_connection(0, 0);
@@ -5999,7 +6001,7 @@ schematic = (function () {
     this.update_coords();
   }
 
-  Label.prototype = new Component();
+  Label.prototype = new Composant();
   Label.prototype.constructor = Label;
 
   Label.prototype.toString = function () {
@@ -6007,7 +6009,7 @@ schematic = (function () {
   }
 
   Label.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 8);
     this.draw_text(c, this.properties['name'], 0, 9, 1, property_size);
   }
@@ -6030,7 +6032,7 @@ schematic = (function () {
   ////////////////////////////////////////////////////////////////////////////////
 
   function CLabel(x, y, rotation, label,is_const) {
-    Component.call(this, 't', x, y, rotation);
+    Composant.call(this, 't', x, y, rotation);
     this.properties['name'] = label ? label : 'lab';
     this.properties['vales'] = '0';
     this.is_const=is_const;
@@ -6039,7 +6041,7 @@ schematic = (function () {
     this.update_coords();
   }
 
-  CLabel.prototype = new Component();
+  CLabel.prototype = new Composant();
   CLabel.prototype.constructor = CLabel;
 
   CLabel.prototype.toString = function () {
@@ -6047,7 +6049,7 @@ schematic = (function () {
   }
 
   CLabel.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 0);
     this.draw_circle(c, 0, 0, 2, probe_colors.green);
     this.draw_text(c, this.properties['name'], -10, 0, 1, property_size);
@@ -6087,7 +6089,7 @@ schematic = (function () {
   };
 
   function Probe(x, y, rotation, color, offset,is_const) {
-    Component.call(this, 's', x, y, rotation);
+    Composant.call(this, 's', x, y, rotation);
     this.add_connection(0, 0);
     this.is_const=is_const;
     this.properties['color'] = color ? color : 'cyan';
@@ -6096,7 +6098,7 @@ schematic = (function () {
     this.update_coords();
   }
 
-  Probe.prototype = new Component();
+  Probe.prototype = new Composant();
   Probe.prototype.constructor = Probe;
 
   Probe.prototype.toString = function () {
@@ -6169,7 +6171,7 @@ schematic = (function () {
   ////////////////////////////////////////////////////////////////////////////////
 
   function Ammeter(x, y, rotation, color, offset,is_const) {
-    Component.call(this, 'a', x, y, rotation);
+    Composant.call(this, 'a', x, y, rotation);
     this.add_connection(0, 0);   // pos
     this.add_connection(16, 0);   // neg
     this.properties['color'] = color ? color : 'magenta';
@@ -6179,7 +6181,7 @@ schematic = (function () {
     this.update_coords();
   }
 
-  Ammeter.prototype = new Component();
+  Ammeter.prototype = new Composant();
   Ammeter.prototype.constructor = Ammeter;
 
   Ammeter.prototype.toString = function () {
@@ -6187,7 +6189,7 @@ schematic = (function () {
   }
 
   Ammeter.prototype.move_end = function () {
-    Component.prototype.move_end.call(this);   // do the normal processing
+    Composant.prototype.move_end.call(this);   // do the normal processing
 
     // special for current probes: see if probe has been placed
     // in the middle of wire, creating three wire segments one
@@ -6260,25 +6262,28 @@ schematic = (function () {
 
   ////////////////////////////////////////////////////////////////////////////////
   //
-  //  Resistor
+  //  Resistance
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Resistor(x, y, rotation, name, r,is_const) {
-    Component.call(this, 'r', x, y, rotation);
+  function Resistance(x, y, rotation, name, r, is_const) {
+    Composant.call(this, 'r', x, y, rotation);
     this.properties['name'] = name;
     this.properties['r'] = r ? r : '1';
+    //this.add_connection(0, 0);
+    //this.add_connection(0, 34);
     this.add_connection(0, 0);
-    this.add_connection(0, 34);
+    this.add_connection(0, 40);
+    //this.bounding_box = [-5,0,5,48];
     this.is_const=is_const;
-    this.bounding_box = [-5, 0, 5, 34];
+    this.bounding_box = [-5, 0, 5, 40];
     this.update_coords();
   }
 
 
-  Resistor.prototype = new Component();
-  Resistor.prototype.constructor = Resistor;
-  Resistor.prototype.randomize = function() {
+  Resistance.prototype = new Composant();
+  Resistance.prototype.constructor = Resistance;
+  Resistance.prototype.randomize = function () {
     let min = 1 , max = 5320.4e3 ;
     let val = (Math.random() * (max -min + 1) + min );
    this.properties['r'] = val+"";
@@ -6286,16 +6291,16 @@ schematic = (function () {
     //this.val = this.properties['r'] = (Math.random() * (max -min + 1) + min )+"";
   }
 
-  Resistor.prototype.get_value = function(){
+  Resistance.prototype.get_value = function () {
     return Number(this.properties['r']);
   }
 
-  Resistor.prototype.toString = function () {
-    return '<Resistor ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
+  Resistance.prototype.toString = function () {
+    return '<Resistance ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
   }
 
-  Resistor.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+  Resistance.prototype.draw = function (c) {
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     /*this.draw_line(c, 0, 0, 0, 12);
     this.draw_line(c, 0, 12, 4, 14);
     this.draw_line(c, 4, 14, -4, 18);
@@ -6304,32 +6309,33 @@ schematic = (function () {
     this.draw_line(c, -4, 26, 4, 30);
     this.draw_line(c, 4, 30, -4, 34);
     this.draw_line(c, -4, 34, 0, 36);
-    this.draw_line(c, 0, 36, 0, 48); */
+    this.draw_line(c, 0, 36, 0, 48);*/
+
 
     this.draw_line(c, -4, 8, 4, 8);
-    this.draw_line(c, -4, 26, 4, 26);
-    this.draw_line(c, -4, 8, -4, 26);
-    this.draw_line(c, 4, 8, 4, 26);
+    this.draw_line(c, -4, 32, 4, 32);
+    this.draw_line(c, -4, 8, -4, 32);
+    this.draw_line(c, 4, 8, 4, 32);
     this.draw_line(c, 0, 0, 0, 8);
-    this.draw_line(c, 0, 26, 0, 34);
+    this.draw_line(c, 0, 32, 0, 40);
     if (!this.sch.is_static && this.properties['r']  )
       this.draw_text(c, this.properties['r'] + '\u03A9', 8, 24, 3, property_size);
     if (this.properties['name'])
       this.draw_text(c, this.properties['name'], -8, 24, 5, property_size);
   }
 
-  Resistor.prototype.clone = function (x, y) {
-    return new Resistor(x, y, this.rotation, this.properties['name'], this.properties['r'],this.is_const);
+  Resistance.prototype.clone = function (x, y) {
+    return new Resistance(x, y, this.rotation, this.properties['name'], this.properties['r'], this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   //
-  //  Capacitor
+  //  Condensateur
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Capacitor(x, y, rotation, name, c,is_const) {
-    Component.call(this, 'c', x, y, rotation);
+  function Condensateur(x, y, rotation, name, c, is_const) {
+    Composant.call(this, 'c', x, y, rotation);
     this.properties['name'] = name;
     this.is_const=is_const;
     this.properties['c'] = c ? c : '1e-12';
@@ -6339,14 +6345,14 @@ schematic = (function () {
     this.update_coords();
   }
 
-  Capacitor.prototype = new Component();
-  Capacitor.prototype.constructor = Capacitor;
+  Condensateur.prototype = new Composant();
+  Condensateur.prototype.constructor = Condensateur;
 
-  Capacitor.prototype.toString = function () {
-    return '<Capacitor ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
+  Condensateur.prototype.toString = function () {
+    return '<Condensateur ' + this.properties['r'] + ' (' + this.x + ',' + this.y + ')>';
   }
 
-   Capacitor.prototype.randomize = function() {
+  Condensateur.prototype.randomize = function () {
     let min = 1e-12 , max = 5320.4e-6 ;
       let val = (Math.random() * (max -min + 1) + min );
    this.properties['c'] = val+"";
@@ -6354,13 +6360,13 @@ schematic = (function () {
  //   this.val = this.properties['c'] = (Math.random() * (max -min + 1) + min)+"p";
   }
 
-  Capacitor.prototype.get_value = function(){
+  Condensateur.prototype.get_value = function () {
     return Number(this.properties['c']);
   }
 
 
-  Capacitor.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+  Condensateur.prototype.draw = function (c) {
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 22);
     this.draw_line(c, -8, 22, 8, 22);
     this.draw_line(c, -8, 26, 8, 26);
@@ -6371,18 +6377,18 @@ schematic = (function () {
       this.draw_text(c, this.properties['name'], -9, 24, 5, property_size);
   }
 
-  Capacitor.prototype.clone = function (x, y) {
-    return new Capacitor(x, y, this.rotation, this.properties['name'], this.properties['c'],this.is_const);
+  Condensateur.prototype.clone = function (x, y) {
+    return new Condensateur(x, y, this.rotation, this.properties['name'], this.properties['c'], this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   //
-  //  Inductor
+  //  Inducteur
   //
   ////////////////////////////////////////////////////////////////////////////////
 
-  function Inductor(x, y, rotation, name, l,is_const) {
-    Component.call(this, 'l', x, y, rotation);
+  function Inducteur(x, y, rotation, name, l, is_const) {
+    Composant.call(this, 'l', x, y, rotation);
     this.properties['name'] = name;
     this.is_const=is_const;
     this.properties['l'] = l ? l : '1e-9';
@@ -6392,14 +6398,14 @@ schematic = (function () {
     this.update_coords();
   }
 
-  Inductor.prototype = new Component();
-  Inductor.prototype.constructor = Inductor;
+  Inducteur.prototype = new Composant();
+  Inducteur.prototype.constructor = Inducteur;
 
-  Inductor.prototype.toString = function () {
-    return '<Inductor ' + this.properties['l'] + ' (' + this.x + ',' + this.y + ')>';
+  Inducteur.prototype.toString = function () {
+    return '<Inducteur ' + this.properties['l'] + ' (' + this.x + ',' + this.y + ')>';
   }
 
-    Inductor.prototype.randomize = function() {
+  Inducteur.prototype.randomize = function () {
     let min = 1e-9  , max = 5320.4e-6;
     let val = (Math.random() * (max -min + 1) + min );
     this.properties['l'] = val+"";
@@ -6407,13 +6413,13 @@ schematic = (function () {
  //   this.val = this.properties['l'] = (Math.random() * (max -min + 1) + min )+"n";
   }
 
-  Inductor.prototype.get_value = function(){
+  Inducteur.prototype.get_value = function () {
     return Number(this.properties['l']);
   }
 
 
-  Inductor.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+  Inducteur.prototype.draw = function (c) {
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 14);
     this.draw_arc(c, 0, 18, 4, 6 * Math.PI / 4, 3 * Math.PI / 4);
     this.draw_arc(c, 0, 24, 4, 5 * Math.PI / 4, 3 * Math.PI / 4);
@@ -6426,8 +6432,8 @@ schematic = (function () {
       this.draw_text(c, this.properties['name'], -6, 24, 5, property_size);
   }
 
-  Inductor.prototype.clone = function (x, y) {
-    return new Inductor(x, y, this.rotation, this.properties['name'], this.properties['l'],this.is_const);
+  Inducteur.prototype.clone = function (x, y) {
+    return new Inducteur(x, y, this.rotation, this.properties['name'], this.properties['l'], this.is_const);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -6440,7 +6446,7 @@ schematic = (function () {
 
   function Diode(x, y, rotation, name, area, type,is_const) {
 
-    Component.call(this, 'd', x, y, rotation);
+    Composant.call(this, 'd', x, y, rotation);
     this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['area'] = area ? area : '1';
@@ -6452,7 +6458,7 @@ schematic = (function () {
   }
 
 
-  Diode.prototype = new Component();
+  Diode.prototype = new Composant();
   Diode.prototype.constructor = Diode;
 
   Diode.prototype.toString = function () {
@@ -6471,7 +6477,7 @@ Diode.prototype.get_value = function(){
 
 
   Diode.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 18);
     this.draw_line(c, -8, 18, 8, 18);
     this.draw_line(c, -8, 18, 0, 30);
@@ -6525,7 +6531,7 @@ Diode.prototype.get_value = function(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function NFet(x, y, rotation, name, w_over_l,is_const) {
-    Component.call(this, 'n', x, y, rotation);
+    Composant.call(this, 'n', x, y, rotation);
     this.properties['name'] = name;
     this.is_const=is_const;
     this.properties['WL'] = w_over_l ? w_over_l : '2';
@@ -6537,8 +6543,7 @@ Diode.prototype.get_value = function(){
   }
 
 
-
-  NFet.prototype = new Component();
+  NFet.prototype = new Composant();
   NFet.prototype.constructor = NFet;
 
   NFet.prototype.toString = function () {
@@ -6556,7 +6561,7 @@ Diode.prototype.get_value = function(){
   }
 
   NFet.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 16);
     this.draw_line(c, -8, 16, 0, 16);
     this.draw_line(c, -8, 16, -8, 32);
@@ -6584,7 +6589,7 @@ Diode.prototype.get_value = function(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function PFet(x, y, rotation, name, w_over_l,is_const) {
-    Component.call(this, 'p', x, y, rotation);
+    Composant.call(this, 'p', x, y, rotation);
     this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['WL'] = w_over_l ? w_over_l : '2';
@@ -6596,7 +6601,7 @@ Diode.prototype.get_value = function(){
   }
 
 
-  PFet.prototype = new Component();
+  PFet.prototype = new Composant();
   PFet.prototype.constructor = PFet;
 
   PFet.prototype.randomize = function() {
@@ -6614,7 +6619,7 @@ Diode.prototype.get_value = function(){
   }
 
   PFet.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     this.draw_line(c, 0, 0, 0, 16);
     this.draw_line(c, -8, 16, 0, 16);
     this.draw_line(c, -8, 16, -8, 32);
@@ -6643,7 +6648,7 @@ Diode.prototype.get_value = function(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function OpAmp(x, y, rotation, name, A,is_const) {
-    Component.call(this, 'o', x, y, rotation);
+    Composant.call(this, 'o', x, y, rotation);
     this.is_const=is_const;
     this.properties['name'] = name;
     this.properties['A'] = A ? A : '30000';
@@ -6655,7 +6660,7 @@ Diode.prototype.get_value = function(){
     this.update_coords();
   }
 
-  OpAmp.prototype = new Component();
+  OpAmp.prototype = new Composant();
   OpAmp.prototype.constructor = OpAmp;
 
   OpAmp.prototype.toString = function () {
@@ -6663,7 +6668,7 @@ Diode.prototype.get_value = function(){
   }
 
   OpAmp.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
     // triangle
     this.draw_line(c, 8, -8, 8, 24);
     this.draw_line(c, 8, -8, 32, 8);
@@ -6694,7 +6699,7 @@ Diode.prototype.get_value = function(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function Source(x, y, rotation, name, type, value) {
-    Component.call(this, type, x, y, rotation);
+    Composant.call(this, type, x, y, rotation);
     this.properties['name'] = name;
     if (value == undefined) value = 'dc(1)';
     this.properties['value'] = value;
@@ -6706,7 +6711,7 @@ Diode.prototype.get_value = function(){
   }
 
 
-  Source.prototype = new Component();
+  Source.prototype = new Composant();
   Source.prototype.constructor = Source;
 
   Source.prototype.toString = function () {
@@ -6725,18 +6730,27 @@ Diode.prototype.get_value = function(){
 
 
   Source.prototype.draw = function (c) {
-    Component.prototype.draw.call(this, c);   // give superclass a shot
-    this.draw_line(c, 0, 0, 0, 12);
-    this.draw_circle(c, 0, 24, 12, false);
-    this.draw_line(c, 0, 36, 0, 48);
+    Composant.prototype.draw.call(this, c);   // give superclass a shot
+    /* this.draw_line(c, 0, 0, 0, 12);
+     this.draw_circle(c, 0, 24, 12, false);
+     this.draw_line(c, 0, 36, 0, 48);*/
 
     if (this.type == 'v') {  // voltage source
+      // this.draw_line(c, 0, 0, 0, 22);
+      this.draw_line(c, -8, 22, 8, 22);
+      this.draw_line(c, -4, 26, 4, 26);
+      this.draw_line(c, 0, 26, 0, 48);
+      this.draw_line(c, 0, 0, 0, 22);
       // draw + and -
-      this.draw_line(c, 0, 15, 0, 21);
-      this.draw_line(c, -3, 18, 3, 18);
-      this.draw_line(c, -3, 30, 3, 30);
+      this.draw_line(c, -5, 9, -5, 15);
+      this.draw_line(c, -8, 12, -2, 12);
+      this.draw_line(c, -8, 36, -2, 36);
     } else if (this.type == 'i') {  // current source
       // draw arrow: pos to neg
+      this.draw_line(c, 0, 0, 0, 12);
+      this.draw_circle(c, 0, 24, 12, false);
+      this.draw_line(c, 0, 36, 0, 48);
+
       this.draw_line(c, 0, 15, 0, 32);
       this.draw_line(c, -3, 26, 0, 32);
       this.draw_line(c, 3, 26, 0, 32);
@@ -6898,7 +6912,7 @@ Diode.prototype.get_value = function(){
   } */
 
 
-  VSource.prototype = new Component();
+  VSource.prototype = new Composant();
    VSource.prototype.randomize = function() {
     let min = 0.5 , max = 25 ;
     val =(Math.random() * (max -min + 1) + min );
@@ -6949,7 +6963,7 @@ Diode.prototype.get_value = function(){
     this.type = 'i';
   }
 
-  ISource.prototype = new Component();
+  ISource.prototype = new Composant();
   ISource.prototype.constructor = ISource;
   ISource.prototype.randomize = function() {
     let min = 0.5 , max = 25 ;
@@ -7035,7 +7049,7 @@ Diode.prototype.get_value = function(){
     console.log(component.properties["name"]);
   }
 
-  Schematic.prototype.printi = function () {
+  Schema.prototype.printi = function () {
     console.log("hello this is printi");
   }
 
@@ -7045,7 +7059,7 @@ Diode.prototype.get_value = function(){
   //
   ///////////////////////////////////////////////////////////////////////////////
 
-  Schematic.prototype.load_custom_tools = function (custom_parts)
+  Schema.prototype.load_custom_tools = function (custom_parts)
   {
     this.custom_parts=custom_parts ;
     console.log(this.custom_parts.length);
@@ -7084,7 +7098,7 @@ Diode.prototype.get_value = function(){
 
   }
 
-  Schematic.prototype.redraw_custom_parts = function ()
+  Schema.prototype.redraw_custom_parts = function ()
   {
     if (! this.custom_table) return ;
     while (this.custom_table.firstChild) {
@@ -7102,7 +7116,7 @@ Diode.prototype.get_value = function(){
     }
   }
 
-  Schematic.prototype.extract_vars = function (expression)
+  Schema.prototype.extract_vars = function (expression)
   {
     //let math = require('mathjs');
     let re = /([A-Za-z]+\d*)/g;
@@ -7112,7 +7126,7 @@ Diode.prototype.get_value = function(){
       return vars ;
   }
 
-  Schematic.prototype.get_component = function(name)
+  Schema.prototype.get_component = function (name)
   {
     for ( c in this.components)
     { //console.log(this.components[c]);
@@ -7121,15 +7135,15 @@ Diode.prototype.get_value = function(){
     }
   }
 
-  Schematic.prototype.randomize = function()
+  Schema.prototype.randomize = function ()
   {
     for( c in this.components)
     { let d = this.components[c];
-      // console.log(d instanceof Resistor );
+      // console.log(d instanceof Resistance );
       d.randomize();
     }
   }
-  Schematic.prototype.parallel = function (expression)
+  Schema.prototype.parallel = function (expression)
   {  let exp= expression;
     let re=/((?:[A-Za-z]+\d*)|(?:\(.+\)))\/\/((?:[A-Za-z]+\d*)|(?:\(.+\)))/gy;
         let t=''
@@ -7158,7 +7172,7 @@ Diode.prototype.get_value = function(){
 
   }
 
-  Schematic.prototype.save_components = function()
+  Schema.prototype.save_components = function ()
   {
     //[["r" ,{"name":"rito","r":"1.5"}]]
     comps = [];
@@ -7180,7 +7194,7 @@ Diode.prototype.get_value = function(){
   }
 
 
-  Schematic.prototype.get_customparts = function () {
+  Schema.prototype.get_customparts = function () {
     //[["r" ,{"name":"rito","r":"1.5"}]]
     comps = [];
     for (d of this.parts_bin) { //console.log(d);
@@ -7199,7 +7213,7 @@ Diode.prototype.get_value = function(){
     return comps;
   }
 
-  Schematic.prototype.get_labels = function () {
+  Schema.prototype.get_labels = function () {
     comps = [];
     let l;
     for (c of this.components) {  //console.log(c);
@@ -7213,7 +7227,7 @@ Diode.prototype.get_value = function(){
   }
 
 
-  Schematic.prototype.remove_parts= function ()
+  Schema.prototype.remove_parts = function ()
   {
     for ( i in this.parts_bin)
     { c = this.parts_bin[i];
@@ -7225,7 +7239,7 @@ Diode.prototype.get_value = function(){
     this.redraw_custom_parts();
   }
   var module = {
-    'Schematic': Schematic,
+    'Schema': Schema,
     'component_slider': component_slider
   }
   return module;

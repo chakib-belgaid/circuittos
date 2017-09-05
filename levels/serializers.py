@@ -1,16 +1,22 @@
 from rest_framework import serializers
 
-from levels.models import Levels, GuidedLevels
+from levels.models import *
 
 
 class LevelsSerialiser ( serializers.ModelSerializer) :
 
     class Meta:
         model = Levels
-        fields = ("id", "circuit")
+        fields = ("id", "circuit", "creation_date", "difficulty")
 
 
-class GuidedLevelsSerialiser(serializers.ModelSerializer):
+class GuidedLevelsSerialiser(LevelsSerialiser):
     class Meta:
         model = GuidedLevels
-        fields = ("id", "circuit", "parts", "labels")
+        fields = ("parts", "labels")
+
+
+class QuestionSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ('id', 'question', 'creation_date')
